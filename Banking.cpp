@@ -73,17 +73,28 @@ void Patron::set_balance( double new_balance ) {
 ostream& operator<<(ostream& os, const Patron & patron)
 // Patron Output stream overload
 // Output format:
-//( name account_number balance ) 
+//(name,account_number,balance) 
 {
-	// todo
+	return os << '(' << patron.get_name( ) << ',' << patron.get_account_number( ) << ',' << patron.get_balance( ) << ')';
 }
 
 istream& operator>>(istream& is, Patron & patron)
 // Patron input stream overload
 // Input format:
-//( name account_number balance ) 
+//(name,account_number,balance)
 {
-	// todo
+    string name;
+    int account_number;
+    double balance;
+    char ch1, ch2, ch3, ch4;
+    is >> ch1 >> y >> ch2 >> m >> ch3 >> d >> ch4;
+    if (!is) return is;
+    if (ch1!='(' || ch2!=',' || ch3!=',' || ch4!=')') { // oops: format error
+        is.clear(ios_base::failbit);                    // set the fail bit
+        return is;
+    }
+    patron = Patron(name,account_number,balance);     // update patron
+    return is;
 }
 
 
