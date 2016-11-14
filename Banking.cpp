@@ -122,7 +122,17 @@ ostream& operator<<(ostream& os, const Transaction & transaction)
 // Output format:
 //( patron_name, patron_account, type, amount, date, time ) 
 {
-	// todo
+	type = "deposit";
+	if ( transaction.type == 1 ){
+		type = "withdraw";
+	}
+
+	return os << '(' << transaction.patron_name <<
+		',' << transaction.patron_account <<
+		',' << transaction.amount <<
+		',' << type <<
+		',' << transaction.date <<
+		',' << transaction.time << ')';
 }
 
 istream& operator>>(istream& is, Transaction & transaction)
@@ -130,7 +140,24 @@ istream& operator>>(istream& is, Transaction & transaction)
 // Input format:
 //( patron_name, patron_account, type, amount, date, time ) 
 {
-	// todo
+	string patron_name;
+    int patron_account;
+    double new_balance;
+	Transaction::Type type = Transaction::Type(1);
+	string type_string;
+	double amount;
+	Chrono::Date date;
+	Chrono::Time time;
+    char ch1, ch2, ch3, ch4, ch5, ch6, ch7;
+    is >> ch1 >> patron_name >> ch2 >> patron_account >> ch3 >> type_string >> ch4 >> amount >> ch5 >> date >> ch6 >> time >> ch7;
+	if (type_string == "deposit") { type = Transaction::Type(2); }
+    if (!is) return is;
+    if (ch1!='(' || ch2!=',' || ch3!=',' || ch4!=',' || ch5!=',' || ch6!=',' || ch7!=')') { // oops: format error
+        is.clear(ios_base::failbit);                    // set the fail bit
+        return is;
+    }
+    transaction = Patron(patron_name,patron_account,new_balance,type,amount,date,time);     // update patron
+    return is;
 }
 
 
@@ -160,7 +187,7 @@ Bank::Bank( String filename )
 //	file not formatted properly
 {
 
-	// todo
+	// Phase 2
 
 }
 
@@ -170,7 +197,7 @@ void Bank::Save_to( String filename ) const
 // Post-condition: patrons and transactions are 
 {
 
-	// todo
+	// Phase 2
 
 }
 
@@ -179,9 +206,10 @@ bool Bank::is_patron ( String name ) const
 // Pre-condition: String name is the name of the patron we are looking for
 // Post-condition: Returns true if a patron of the specified name is in patrons, otherwise false
 {
-
-	// todo
-
+	for (int i = 0; i < patrons.size(); ++i) {
+		if (name == patrons[i].get_name()) { return 1; }
+	}
+	return 0;
 }
 
 Patron Bank::get_patron ( String name ) const
@@ -190,9 +218,12 @@ Patron Bank::get_patron ( String name ) const
 // Post-condition: returns the Patron object from patrons whose 
 // Post-Condition: If no patron with that name is found, return null
 {
-
-	// todo
-
+	for (int i = 0; i < patrons.size(); ++i) {
+		if (name == patrons[i].get_name()) { 
+			return patrons[i]; 
+		}
+	}
+	if (!is_patron(name)) { error("lol no patron named that XD"); }
 }
 
 void Bank::add_patron ( Patron patron )
@@ -201,7 +232,7 @@ void Bank::add_patron ( Patron patron )
 // Post-condition: patron is added to the end of patrons. Nothing is returned
 {
 
-	// todo
+	if (!is_patron(patron.get_name())) { patrons.push_back(patron); }
 
 }
 
@@ -211,7 +242,7 @@ void Bank::display_patrons ( )
 // Note: Because this is so similar to save_to, we can overload output for Bank if we want
 {
 
-	// todo
+	cout << "all patrons data";
 
 }
 
@@ -314,7 +345,7 @@ International_Bank::International_Bank ( String filename )
 //	file not formatted properly
 {
 
-	// todo
+	// Phase 2
 
 }
 

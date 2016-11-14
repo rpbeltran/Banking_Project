@@ -153,9 +153,9 @@ namespace Banking {
 
 	class Bank {
 
-		vector<Patrons> patrons;
+		vector<Patron> patrons;
 
-		vector<Transactions> transactions;
+		vector<Transaction> transactions;
 
 		Money money;
 
