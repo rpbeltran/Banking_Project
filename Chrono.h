@@ -1,33 +1,31 @@
 
-#include <iostream>
-using namespace std;
+//
+// This is example code from Chapter 9.8 "The Date class" of 
+// "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
+//
 
+#include "std_lib_facilities_4.h"
+// include the following to get current Date and Time
+#include <iomanip>
+#include <ctime>
 
+//------------------------------------------------------------------------------
 
 namespace Chrono {
 
-
-//-------------------------------------------------------------------------------------
-
+//------------------------------------------------------------------------------
 
 class Date {
 public:
     enum Month {
-        jan = 1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
+        jan=1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
     };
 
-    class Invalid : public exception { 
-
-        virtual const char* what() const throw() {
-            return "Invalid arguments for Chrono::Date";
-        }
-
-    };
+    class Invalid { };                 // to throw as exception
 
     Date(int y, Month m, int d);       // check for valid date and initialize
-    Date( Month mm, int dd, int yy);
+    Date(Month m, int d, int y);       // check for valid date and initialize
     Date();                            // default constructor
-    
     // the default copy operations are fine
 
     // non-modifying operations:
@@ -35,86 +33,89 @@ public:
     Month month() const { return m; }
     int   year()  const { return y; }
 
-    int   to_julian();
-    int   days_since( Date date );
-    int   days_since_911();
-
     // modifying operations:
     void add_day(int n);        
     void add_month(int n);
     void add_year(int n);
-
 private:
     int   y;
     Month m;
     int   d;
 };
 
+//------------------------------------------------------------------------------
 
 bool is_date(int y, Date::Month m, int d); // true for valid date
 
+//------------------------------------------------------------------------------
+
 bool leapyear(int y);                  // true if y is a leap year
 
+//------------------------------------------------------------------------------
+
+// displays years,months,days of current Date from 911 
+void calc911(int y, Date::Month m, int d); 
+
+//------------------------------------------------------------------------------
 
 bool operator==(const Date& a, const Date& b);
 bool operator!=(const Date& a, const Date& b);
 
+//------------------------------------------------------------------------------
+
 ostream& operator<<(ostream& os, const Date& d);
 istream& operator>>(istream& is, Date& dd);
 
-
-//-------------------------------------------------------------------------------------
-
+//------------------------------------------------------------------------------
 
 class Time {
-
 public:
+  enum AmPm {
+    am=1, pm
+  };
 
-    enum AmPm { Am, Pm };
+  class Invalid { };                      // to throw as exception
 
-    class Invalid : public exception { 
+  Time(int h, int m, int s);              // check for valid 24 hr time and initialize
+  Time(int h, int m, int s, AmPm a);      // check for valid 12 hr time and initialize
+  Time();                                 // default constructor
+  // the default copy operations are fine
 
-        virtual const char* what() const throw() {
-            return "Invalid arguments for Chrono::Time";
-        }
+  // non-modifying operations:
+  int   hour()   const { return h; }
+  int   minute() const { return m; }
+  int   second() const { return s; }
+  AmPm  am_pm()  const { return a; }
 
-    };
-
-    Time( int h, int m, int s );       
-    Time( int h, int m, int s, AmPm meridian );
-    Time( );                            
-
-    // non-modifying operations:
-    int hour()    const { return hours; }
-    int minute() const { return minutes; }
-    int second() const { return seconds; }
-    int ampm()    const { return meridian; }
-
-    void display_12( );
-    void display_24( );
-
-    // modifying operations:
-    bool adjustAmPm();
+  // modifying operations:
+  void set_am_pm();  // fixes am_pm setting after 24 hr format is used to set Time        
 
 private:
-
-    int hours;
-    int minutes;
-    int seconds;
-    AmPm meridian;
+  int   h;
+  int   m;
+  int   s;
+  AmPm  a;
 
 };
 
-bool operator==(const Time& a, const Time& b);
+//------------------------------------------------------------------------------
 
+bool is_time_24(int h, int m, int s); // true for valid 24 hr time
+
+//------------------------------------------------------------------------------
+
+bool is_time_12(int h, int m, int s, Time::AmPm a); // true for valid 12 hr time
+
+//------------------------------------------------------------------------------
+
+bool operator==(const Time& a, const Time& b);
 bool operator!=(const Time& a, const Time& b);
 
-bool is_time( int h, int m, int s ); // true for valid time
+//------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------------
+ostream& operator<<(ostream& os, const Time& d);
+istream& operator>>(istream& is, Time& dd);
 
+//------------------------------------------------------------------------------
 
 } // Chrono
-
-
-
