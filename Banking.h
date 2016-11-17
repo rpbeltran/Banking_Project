@@ -171,6 +171,8 @@ namespace Banking {
 		void   add_patron ( Patron ); // Add a new patron
 
 		void display_patrons ( ); // Display all patrons data
+		void display_overdrawn(); // Displays overdrawn patrons
+		void display_transactions();
 
 		void withdraw ( Patron & p, double );
 		void deposit  ( Patron & p, double );
@@ -205,6 +207,8 @@ namespace Banking {
 
 		void withdraw ( Patron, Currency, double );
 		void deposit ( Patron, Currency, double );
+
+		void display_total_money(); ///
 
 		double total_money( ) const; // Get total money in default_currency
 		void add_money( Currency, double );

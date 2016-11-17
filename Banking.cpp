@@ -248,6 +248,28 @@ void Bank::display_patrons ( )
 
 }
 
+void display_overdrawn ( ) 
+// Description: Displays overdrawn patrons
+{
+
+	for (int i = 0; i < patrons.size(); ++i) {
+		if (patrons[i].get_balance() < 0)
+			cout << patrons[i] << endl;
+	}
+
+}
+
+void display_transactions ( )
+// Description: Displays transactions
+// Note: Use overloaded output stream operators
+{
+
+	for (int i = 0; i < transactions.size(); ++i) {
+		cout << transactions[i] << endl;
+	}
+
+}
+
 void Bank::withdraw ( Patron & patron, double amount )
 // Description: Withdraw an amount of money from a patrons account, record the transaction, remove the money from the bank
 // Precondition: patron is a reference to a patron in patrons, amount is a positive double
@@ -419,6 +441,13 @@ void International_Bank::deposit ( Patron patron, Currency currency, double amou
 		Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()-amount, type, amount, Chrono::Date, Chrono::Time ); // what is date and time
 	);
 
+}
+
+void display_total_money ( )
+{
+
+	cout << total_money() << ' ' << default_currency.type << endl;
+	
 }
 
 
