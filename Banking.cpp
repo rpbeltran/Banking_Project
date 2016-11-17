@@ -201,7 +201,7 @@ void Bank::Save_to( String filename ) const
 
 }
 
-bool Bank::is_patron ( String name ) const 
+bool Bank::is_patron ( String name ) const
 // Description: Check if a name belongs to a patron
 // Pre-condition: String name is the name of the patron we are looking for
 // Post-condition: Returns true if a patron of the specified name is in patrons, otherwise false
@@ -242,7 +242,9 @@ void Bank::display_patrons ( )
 // Note: Because this is so similar to save_to, we can overload output for Bank if we want
 {
 
-	cout << "all patrons data";
+	for (int i = 0; i < patrons.size(); ++i) {
+		cout << patrons[i] << endl;
+	}
 
 }
 
@@ -253,7 +255,15 @@ void Bank::withdraw ( Patron & patron, double amount )
 // Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 {
 
-	// todo
+	if (amount <= 0) error("invalid operation: negative amount");
+	// Changes patron balance
+	patron.set_balance(patron.get_balance()-amount);
+	// Adds transaction
+	Transaction::Type type = Transaction::Type(1);
+	transactions.push_back(
+		Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()-amount, type, amount, Chrono::Date, Chrono::Time ); // what is date and time
+	);
+	remove_money(amount);
 
 }
 
@@ -264,7 +274,16 @@ void Bank::deposit ( Patron patron, double amount)
 // Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 {
 
-	// todo
+	if (amount <= 0) error("invalid operation: negative amount");
+	
+	// Changes patron balance
+	patron.set_balance(patron.get_balance()+amount);
+	// Adds transaction
+	Transaction::Type type = Transaction::Type(2);
+	transactions.push_back(
+		Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()+amount, type, amount, Chrono::Date, Chrono::Time ); // what is date and time
+	);
+	add_money(amount);
 
 }
 
@@ -272,7 +291,7 @@ double Bank::total_money( ) const
 // Description: Get total money in USD
 // Note: US bank only has one Money object to consider
 {
-	// todo
+	return money.get_amount();
 }
 
 void Bank::add_money( double amount )
@@ -281,17 +300,19 @@ void Bank::add_money( double amount )
 // Post-condition: money.amount is updated
 {
 
-	// todo
+	if (amount <= 0) error("invalid operation: negative amount");
+	money.set_amount(money.get_amount() + amount);
 
 }
 
 void Bank::remove_money( double amount )
-// Desscription: Subtract money from bank
+// Description: Subtract money from bank
 // Precondition: amount is a positive double
 // Post-condition: money.amount is updated
 {
 
-	// todo
+	if (amount <= 0) error("invalid operation: negative amount");
+	money.set_amount(money.get_amount() - amount);
 
 }
 
@@ -356,8 +377,18 @@ void International_Bank::withdraw ( Patron patron, Currency currency, double amo
 // Post-condition: patron.amount is modified, a new entry is added to transactions, remove_money is called
 // Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 {
+	if (amount <= 0) error("invalid operation: negative amount");
+	// convert amount to amount in default currency
+	amount = default_currency.exchange_rate * amount / currency.exchange_rate;
+	// Changes patron balance in default currency
+	patron.set_balance(patron.get_balance()-amount);
+	// Adds transaction in default currency
+	Transaction::Type type = Transaction::Type(1);
+	transactions.push_back(
+		Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()-amount, type, amount, Chrono::Date, Chrono::Time ); // what is date and time
+	);
+	remove_money(amount);
 
-	// todo
 
 }
 
