@@ -179,6 +179,7 @@ namespace Banking {
 		void add_money( double ); // Add money in USD
 		void remove_money( double );
 
+		int patron_count() { return patrons.size(); }
 
 	};
 

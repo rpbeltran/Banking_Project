@@ -343,7 +343,14 @@ Currency International_Bank::currency ( String currency_name )
 }
 
 
-International_Bank::International_Bank ( Currency currency) : default_currency(currency) { }
+International_Bank::International_Bank ( Currency currency) : default_currency(currency) 
+{ 
+	monies.push_back(Money(currency("USD"),20000*currency("USD").exchange_rate));
+	monies.push_back(Money(currency("GBP"),20000*currency("GBP").exchange_rate));
+	monies.push_back(Money(currency("EUR"),20000*currency("EUR").exchange_rate));
+	monies.push_back(Money(currency("JPY"),20000*currency("JPY").exchange_rate));
+	monies.push_back(Money(currency("RUB"),20000*currency("RUB").exchange_rate));
+}
 
 
 International_Bank::International_Bank ( String filename ) 
@@ -377,7 +384,9 @@ void International_Bank::withdraw ( Patron patron, Currency currency, double amo
 // Post-condition: patron.amount is modified, a new entry is added to transactions, remove_money is called
 // Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 {
+
 	if (amount <= 0) error("invalid operation: negative amount");
+	remove_money(currency,amount);
 	// convert amount to amount in default currency
 	amount = default_currency.exchange_rate * amount / currency.exchange_rate;
 	// Changes patron balance in default currency
@@ -387,8 +396,6 @@ void International_Bank::withdraw ( Patron patron, Currency currency, double amo
 	transactions.push_back(
 		Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()-amount, type, amount, Chrono::Date, Chrono::Time ); // what is date and time
 	);
-	remove_money(amount);
-
 
 }
 
@@ -400,7 +407,17 @@ void International_Bank::deposit ( Patron patron, Currency currency, double amou
 // Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 {
 
-	// todo
+	if (amount <= 0) error("invalid operation: negative amount");
+	add_money(currency,amount);
+	// convert amount to amount in default currency
+	amount = default_currency.exchange_rate * amount / currency.exchange_rate;
+	// Changes patron balance in default currency
+	patron.set_balance(patron.get_balance()+amount);
+	// Adds transaction in default currency
+	Transaction::Type type = Transaction::Type(2);
+	transactions.push_back(
+		Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()-amount, type, amount, Chrono::Date, Chrono::Time ); // what is date and time
+	);
 
 }
 
@@ -410,7 +427,11 @@ double International_Bank::total_money( ) const
 // Note: iterate through moneys, and convert to default currency rates
 {
 
-	// todo
+	double total = 0;
+	for (int i = 0; i < monies.size(); ++i) {
+		total = total + default_currency.exchange_rate * monies[i].get_amount() / monies[i].get_currency().exchange_rate;
+	}
+	return total;
 
 }
 
@@ -421,7 +442,10 @@ void International_Bank::add_money( Currency currency, double amount)
 // Post-condition: amount is added to proper entry in moneys, or entry is created if necessary
 {
 
-	// todo
+	for (int i = 0; i < monies.size(); ++i) {
+		if (monies[i].get_currency().type == currency.type) 
+			monies[i].set_amount(monies[i].get_amount()+amount);
+	}
 
 }
 
@@ -432,7 +456,10 @@ void International_Bank::remove_money( Currency currency, double amount)
 // Post-condtion: amount is subtracted from proper entry in moneys
 {
 
-	// todo
+	for (int i = 0; i < monies.size(); ++i) {
+		if (monies[i].get_currency().type == currency.type) 
+			monies[i].set_amount(monies[i].get_amount()-amount);
+	}
 
 }
 
