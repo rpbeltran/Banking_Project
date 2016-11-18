@@ -151,7 +151,7 @@ void make_withdraw( Bank & bank )
 	string name;
 	cin >> name;
 
-	if(bank.is_patron(name)){
+	if(bank.is_patron(name)) {
 		Patron patron = bank.get_patron( name );
 		double amount = prompt_for_double( "How much money should be withdrawn?" );
 		bank.withdraw( patron, amount );
@@ -170,6 +170,10 @@ void display_overdrawn_patrons( Bank & bank )
 void display_transactions( Bank & bank )
 {
 	bank.display_transactions();
+}
+
+void quit( Bank & bank ) {
+	bank.Save_to("TODO");
 }
 
 int main ( ) {

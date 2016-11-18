@@ -35,6 +35,33 @@ namespace Banking {
 		amount = new_amount;
 	}
 
+	ostream& operator<<(ostream& os, const Money & money)
+	// Money Output stream overload
+	// Output format:
+	//(name,account_number,balance)
+	{
+		return os << '(' << money.get_currency( ).type << ',' << money.get_currency( ).exchange_rate  << ',' << money.get_amount( ) << ')';
+	}
+
+	istream& operator>>(istream& is, Money & money)
+	// Money input stream overload
+	// Input format:
+	//(name,account_number,balance)
+	{
+	    string type;
+	    double er;
+	    double amount;
+	    char ch1, ch2, ch3, ch4;
+	    is >> ch1 >> type >> ch2 >> er >> ch3 >> amount >> ch4;
+	    if (!is) return is;
+	    if (ch1!='(' || ch2!=',' || ch3!=',' || ch4!=')') { // oops: format error
+	        is.clear(ios_base::failbit);                    // set the fail bit
+	        return is;
+	    }
+	    money = Money( Currency( type, er), amount );// update patron
+	    return is;
+	}
+
 
 
 
@@ -194,14 +221,18 @@ namespace Banking {
 
 	}
 
-	void Bank::Save_to( string filename ) const 
+	void Bank::Save_to( string filename ) 
 	// Description: saves bank data to a text file
 	// Precondition: String filename points is the name of the file to be created
 	// Post-condition: patrons and transactions are 
 	{
-
-		// Phase 2
-
+		cout << money;
+		cout << "--" << endl;
+		for ( Patron & p : patrons)
+			cout << p << endl;
+		cout << "--" << endl;
+		for ( Transaction & t : transactions )
+			cout << t << endl;
 	}
 
 	bool Bank::is_patron ( string name ) const
