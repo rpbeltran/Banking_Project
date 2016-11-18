@@ -170,7 +170,7 @@ namespace Banking {
 		void Save_to( string ) const; // Dump State into a textfile
 
 		bool    is_patron ( string ) const; // Check if a name belongs to a patron
-		Patron get_patron ( string ) const; // Get patron by name
+		Patron& get_patron ( string ); // Get patron by name
 		void   add_patron ( Patron ); // Add a new patron
 
 		void display_patrons ( ); // Display all patrons data
@@ -187,6 +187,8 @@ namespace Banking {
 		int patron_count() { return patrons.size(); }
 
 		Currency currency( string ); // return currency object from it's name
+
+		void set_patron_balance ( Patron & patron, double balance );
 
 	};
 

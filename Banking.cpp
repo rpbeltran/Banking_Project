@@ -215,7 +215,7 @@ namespace Banking {
 		return 0;
 	}
 
-	Patron Bank::get_patron ( string name ) const
+	Patron & Bank::get_patron ( string name )
 	// Description: Get patron by name
 	// Pre-condition: String name is the name of a patron
 	// Post-condition: returns the Patron object from patrons whose 
@@ -227,6 +227,16 @@ namespace Banking {
 			}
 		}
 		if (!is_patron(name)) { error("lol no patron named that XD"); }
+	}
+
+	void Bank::set_patron_balance ( Patron & patron, double balance )
+	{
+		for (int i = 0; i < patrons.size(); ++i) {
+			if (patron.get_account_number() == patrons[i].get_account_number()) { 
+				patrons[i].set_balance( balance );
+				break;
+			}
+		}
 	}
 
 	void Bank::add_patron ( Patron patron )
@@ -245,8 +255,12 @@ namespace Banking {
 	// Note: Because this is so similar to save_to, we can overload output for Bank if we want
 	{
 
+		if ( patrons.size() == 0 ) {
+			cout << "Bank currently has no patrons." << endl << endl;
+		}
+
 		for (int i = 0; i < patrons.size(); ++i) {
-			cout << patrons[i] << endl;
+			cout << "Patron name: "<< patrons[i].get_name() << endl << "Patron Number: " << patrons[i].get_account_number() << endl << "patron balance: " << patrons[i].get_balance() << endl << endl;
 		}
 
 	}
@@ -254,10 +268,17 @@ namespace Banking {
 	void Bank::display_overdrawn ( ) 
 	// Description: Displays overdrawn patrons
 	{
+		bool hasOverdrawn = false;
 
 		for (int i = 0; i < patrons.size(); ++i) {
-			if (patrons[i].get_balance() < 0)
-				cout << patrons[i] << endl;
+			if (patrons[i].get_balance() < 0){
+				cout << "Patron name: "<< patrons[i].get_name() << endl << "Patron Number: " << patrons[i].get_account_number() << endl << "patron balance: " << patrons[i].get_balance() << endl << endl;
+				hasOverdrawn = true;
+			}
+		}
+
+		if (hasOverdrawn == false) {
+			cout << "Bank currently has no overdrawn patrons." << endl << endl;
 		}
 
 	}
@@ -266,6 +287,10 @@ namespace Banking {
 	// Description: Displays transactions
 	// Note: Use overloaded output stream operators
 	{
+
+		if ( transactions.size() == 0 ) {
+			cout << "Bank currently has no patrons." << endl << endl;
+		}
 
 		for (int i = 0; i < transactions.size(); ++i) {
 			cout << transactions[i] << endl;
@@ -280,15 +305,26 @@ namespace Banking {
 	// Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 	{
 
-		if (amount <= 0) error("invalid operation: negative amount");
-		// Changes patron balance
-		patron.set_balance(patron.get_balance()-amount);
-		// Adds transaction
-		Transaction::Type type = Transaction::Type(1);
-		transactions.push_back(
-			Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()-amount, type, amount, Chrono::Date(), Chrono::Time() ) 
-		);
-		remove_money(amount);
+		if (amount <= 0){		 
+			error("invalid operation: negative amount");
+		}
+
+		if (amount > total_money() ) {
+			cout << "Sorry, The bank has insufficient funds for this" << endl << endl;
+		}
+		
+		else {
+
+			// Changes patron balance
+			set_patron_balance(patron, patron.get_balance()-amount);
+			// Adds transaction
+			Transaction::Type type = Transaction::Type(1);
+			transactions.push_back(
+				Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance(), type, amount, Chrono::Date(), Chrono::Time() ) 
+			);
+			remove_money(amount);
+
+		}		
 
 	}
 
@@ -302,11 +338,11 @@ namespace Banking {
 		if (amount <= 0) error("invalid operation: negative amount");
 		
 		// Changes patron balance
-		patron.set_balance(patron.get_balance()+amount);
+		set_patron_balance(patron, patron.get_balance()+amount);
 		// Adds transaction
 		Transaction::Type type = Transaction::Type(2);
 		transactions.push_back(
-			Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()+amount, type, amount, Chrono::Date(), Chrono::Time() )
+			Transaction( patron.get_name(), patron.get_account_number(), patron.get_balance() + amount, type, amount, Chrono::Date(), Chrono::Time() )
 		);
 		add_money(amount);
 
@@ -325,7 +361,9 @@ namespace Banking {
 	// Post-condition: money.amount is updated
 	{
 
-		if (amount <= 0) error("invalid operation: negative amount");
+		if (amount <= 0) 
+			error("invalid operation: negative amount");
+		
 		money.set_amount(money.get_amount() + amount);
 
 	}
@@ -336,8 +374,15 @@ namespace Banking {
 	// Post-condition: money.amount is updated
 	{
 
-		if (amount <= 0) error("invalid operation: negative amount");
-		money.set_amount(money.get_amount() - amount);
+		if (amount <= 0) 
+			error("invalid operation: negative amount");
+		
+		if (amount > total_money() ) {
+			cout << "Sorry, The bank has insufficient funds for this" <<endl <<endl;
+		}
+		else {
+			money.set_amount(money.get_amount() - amount);
+		}
 
 	}
 
