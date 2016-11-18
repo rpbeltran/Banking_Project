@@ -421,11 +421,11 @@ namespace Banking {
 
 	International_Bank::International_Bank ( Currency dc ) : default_currency( dc ) 
 	{ 
-		monies.push_back(  Money( currency("USD"), 20000*currency("USD").exchange_rate )  );
-		monies.push_back(  Money( currency("GBP"), 20000*currency("GBP").exchange_rate )  );
-		monies.push_back(  Money( currency("EUR"), 20000*currency("EUR").exchange_rate )  );
-		monies.push_back(  Money( currency("JPY"), 20000*currency("JPY").exchange_rate )  );
-		monies.push_back(  Money( currency("RUB"), 20000*currency("RUB").exchange_rate )  );
+		monies.push_back(  Money( currency("USD"), 20000*currency("USD").exchange_rate / default_currency.exchange_rate )  );
+		monies.push_back(  Money( currency("GBP"), 20000*currency("GBP").exchange_rate / default_currency.exchange_rate )  );
+		monies.push_back(  Money( currency("EUR"), 20000*currency("EUR").exchange_rate / default_currency.exchange_rate )  );
+		monies.push_back(  Money( currency("JPY"), 20000*currency("JPY").exchange_rate / default_currency.exchange_rate )  );
+		monies.push_back(  Money( currency("RUB"), 20000*currency("RUB").exchange_rate / default_currency.exchange_rate )  );
 	}
 
 
@@ -461,17 +461,36 @@ namespace Banking {
 	// Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 	{
 
-		if (amount <= 0) error("invalid operation: negative amount");
-		remove_money(currency,amount);
-		// convert amount to amount in default currency
-		amount = default_currency.exchange_rate * amount / currency.exchange_rate;
-		// Changes patron balance in default currency
-		patron.set_balance(patron.get_balance()-amount);
-		// Adds transaction in default currency
-		Transaction::Type type = Transaction::Type(1);
-		transactions.push_back(
-			Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()-amount, type, amount, Chrono::Date(), Chrono::Time() )
-		);
+		if (amount <= 0) {
+			error("invalid operation: negative amount");
+		}
+
+		double current = 0;
+		for (int i = 0; i < monies.size(); ++i) {
+			if (monies[i].get_currency().type == currency.type) {
+				current = monies[i].get_amount();
+				break;
+			}
+		}
+
+		if (amount >  current ) {
+		
+			cout << "Sorry, The bank has insufficient funds for this" << endl << endl;
+		
+		} else {
+
+			remove_money(currency,amount);
+			// convert amount to amount in default currency
+			amount = default_currency.exchange_rate * amount / currency.exchange_rate;
+			// Changes patron balance in default currency
+			set_patron_balance(patron, patron.get_balance()-amount);
+			// Adds transaction in default currency
+			Transaction::Type type = Transaction::Type(1);
+			transactions.push_back(
+				Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance()-amount, type, amount, Chrono::Date(), Chrono::Time() )
+			);
+
+		}
 
 	}
 
@@ -483,12 +502,17 @@ namespace Banking {
 	// Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 	{
 
-		if (amount <= 0) error("invalid operation: negative amount");
+		if (amount <= 0) 
+			error("invalid operation: negative amount");
+		
 		add_money(currency,amount);
+		
 		// convert amount to amount in default currency
 		amount = default_currency.exchange_rate * amount / currency.exchange_rate;
+		
 		// Changes patron balance in default currency
-		patron.set_balance(patron.get_balance()+amount);
+		set_patron_balance(patron, patron.get_balance()+amount);
+		
 		// Adds transaction in default currency
 		Transaction::Type type = Transaction::Type(2);
 		transactions.push_back(
@@ -543,8 +567,15 @@ namespace Banking {
 	{
 
 		for (int i = 0; i < monies.size(); ++i) {
-			if (monies[i].get_currency().type == currency.type) 
+			if (monies[i].get_currency().type == currency.type) {
+
+				if (amount >  monies[i].get_amount() ) {
+					cout << "Sorry, The bank has insufficient funds for this" << endl << endl;
+					break;
+				}
 				monies[i].set_amount(monies[i].get_amount()-amount);
+			
+			}
 		}
 
 	}

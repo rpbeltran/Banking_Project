@@ -213,7 +213,7 @@ namespace Banking {
 		void withdraw ( Patron, Currency, double );
 		void deposit ( Patron, Currency, double );
 
-		void display_total_money(); ///
+		void display_total_money();
 
 		double total_money( ) const; // Get total money in default_currency
 		void add_money( Currency, double );

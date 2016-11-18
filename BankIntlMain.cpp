@@ -50,18 +50,18 @@ int prompt_for_double ( string message )
 
 int prompt_menu ( ) {
 
-	string menu =  " What would you like to do? Plese enter:" 
-			"1  - to add Money to the Bank,\n"
-			"2  - to remove Money from the Bank,\n"
-			"3  - to display how much total Money is in the Bank,\n"
-			"4  - to add a new Patron to the Bank,\n"
-			"5  - to check whether someone is already a Patron, and displaying their information, \n"
-			"6  - to display a list of information about all Patron’s,\n"
-			"7  - to make a deposit in USD by a Patron,\n"
-			"8  - to make a withdrawal in USD by a Patron,\n"
-			"9  - to display a list of information about all Patron’s that are overdrawn\n"
-			"10 - to display a list of Transaction’s done by all Patron’s  \n"
-			"11 - to quit the program\n";
+	string menu =  "\nWhat would you like to do? Plese enter:\n" 
+			"\t1  - to add Money to the Bank,\n"
+			"\t2  - to remove Money from the Bank,\n"
+			"\t3  - to display how much total Money is in the Bank,\n"
+			"\t4  - to add a new Patron to the Bank,\n"
+			"\t5  - to check whether someone is already a Patron, and displaying their information, \n"
+			"\t6  - to display a list of information about all Patron’s,\n"
+			"\t7  - to make a deposit in by a Patron,\n"
+			"\t8  - to make a withdrawal in by a Patron,\n"
+			"\t9  - to display a list of information about all Patron’s that are overdrawn\n"
+			"\t10 - to display a list of Transaction’s done by all Patron’s  \n"
+			"\t11 - to quit the program\n";
 
 	int selection = 0;
 	while ( ( selection < 1 ) || ( selection > 11 ) ) {
@@ -119,6 +119,8 @@ void add_new_patron( International_Bank & bank )
 	Patron patron( name, num, 0);
 
 	cout << "Patron added as account number " << num;
+
+	bank.add_patron( patron );
 
 }
 
@@ -187,9 +189,42 @@ void display_transactions( International_Bank & bank )
 	bank.display_transactions();
 }
 
+Currency prompt_country() {
+
+	string menu =  "\nWhat coutry are you in?\n" 
+		"\t1  - United States\n"
+		"\t2  - Great Britian\n"
+		"\t3  - European Economic Community\n"
+		"\t4  - Japan\n"
+		"\t5  - Russia\n";
+
+
+	int selection = 0;
+	while ( ( selection < 1 ) || ( selection > 5 ) ) {
+		selection = prompt_for_int( menu );
+	}
+
+	switch( selection ) {
+
+		case 2 : return Currency( "GBP", .76 );
+
+		case 3 : return Currency( "EUR", .89 );
+
+		case 4 : return Currency( "JPY", 102.09 ); 
+
+		case 5 : return Currency( "RUB", 65.97 );
+
+	}
+
+	return Currency( "USD", 1.0 );
+
+}
+
 int main ( ) {
 
-	International_Bank bank ( Currency("USD", 1.0) );
+	Currency dc = prompt_country();
+
+	International_Bank bank ( dc );
 
 	int option = 0;
 	while ( option != 11 ) {
