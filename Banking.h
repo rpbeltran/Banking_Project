@@ -199,7 +199,7 @@ namespace Banking {
 	// International Bank Class
 	//
 
-	class International_Bank : Bank {
+	class International_Bank : public Bank {
 		
 		Currency default_currency;
 

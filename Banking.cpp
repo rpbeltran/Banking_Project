@@ -511,6 +511,16 @@ namespace Banking {
 
 	}
 
+	void International_Bank::display_total_money( )  
+	// Description: Get total money in default_currency
+	// Note: iterate through moneys, and convert to default currency rates
+	{
+		for (int i = 0; i < monies.size(); ++i) {
+			cout << monies[i].get_currency().type << ": " << monies[i].get_amount() << endl;
+		}
+		cout << endl;
+	}
+
 
 	void International_Bank::add_money( Currency currency, double amount)
 	// Description: Add money to bank

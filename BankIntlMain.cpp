@@ -2,7 +2,6 @@
 
 #include "std_lib_facilities_4.h"
 #include "Banking.h"
-#include "Chrono.h"
 
 using namespace Banking;
 
@@ -46,10 +45,12 @@ int prompt_for_double ( string message )
 
 	return input;
 
+}
+
 
 int prompt_menu ( ) {
 
-	menu =  " What would you like to do? Plese enter:" 
+	string menu =  " What would you like to do? Plese enter:" 
 			"1  - to add Money to the Bank,\n"
 			"2  - to remove Money from the Bank,\n"
 			"3  - to display how much total Money is in the Bank,\n"
@@ -79,7 +80,7 @@ Currency prompt_for_currency( International_Bank & bank )
 
 	if ( (currency_name!="USD")&&(currency_name!="GBP")&&(currency_name!="EUR")&&(currency_name!="JPY")&&(currency_name!="RUB") ){
 		cout << "Invalid currency!" << endl;
-		return prompt_for_currency();
+		return prompt_for_currency( bank );
 	}
 
 	return bank.currency( currency_name );
@@ -128,7 +129,7 @@ void check_is_patron( International_Bank & bank )
 	cin >> name;
 	if(bank.is_patron(name)){
 		Patron patron = bank.get_patron( name );
-		cout << "Patron name: "<< patron.get_name() << endl << "Patron Number: " patron.get_account_number() << endl << "patron balance: " << patron.get_balance() << endl;
+		cout << "Patron name: "<< patron.get_name() << endl << "Patron Number: " << patron.get_account_number() << endl << "patron balance: " << patron.get_balance() << endl;
 	} else {
 		cout << name << " is not a patron here";
 	}
@@ -147,9 +148,15 @@ void make_deposit( International_Bank & bank )
 	string name;
 	cin >> name;
 
-	double amount = prompt_for_double( "How much money should be deposited?" );
-
-	bank.deposit( patron, amount );
+	if(bank.is_patron(name)){
+		Patron patron = bank.get_patron( name );
+		Currency currency = prompt_for_currency( bank );
+		double amount = prompt_for_double( "How much money should be deposited?" );
+		bank.deposit( patron, currency, amount );
+	}
+	else {
+		cout << name << " is not a patron here";
+	}
 }
 
 void make_withdraw( International_Bank & bank )
@@ -158,9 +165,16 @@ void make_withdraw( International_Bank & bank )
 	string name;
 	cin >> name;
 
-	double amount = prompt_for_double( "How much money should be withdrawn?" );
+	if(bank.is_patron(name)){
+		Patron patron = bank.get_patron( name );
+		Currency currency = prompt_for_currency( bank );
+		double amount = prompt_for_double( "How much money should be withdrawn?" );
+		bank.withdraw( patron, currency, amount );
+	}
+	else {
+		cout << name << " is not a patron here";
+	}
 
-	bank.deposit( patron, amount );
 }
 
 void display_overdrawn_patrons( International_Bank & bank )
@@ -175,7 +189,7 @@ void display_transactions( International_Bank & bank )
 
 int main ( ) {
 
-	International_Bank bank;
+	International_Bank bank ( Currency("USD", 1.0) );
 
 	int option = 0;
 	while ( option != 11 ) {
