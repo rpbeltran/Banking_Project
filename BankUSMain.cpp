@@ -2,7 +2,6 @@
 
 #include "std_lib_facilities_4.h"
 #include "Banking.h"
-#include "Chrono.h"
 
 using namespace Banking;
 
@@ -46,10 +45,12 @@ int prompt_for_double ( string message )
 
 	return input;
 
+}
+
 
 int prompt_menu ( ) {
 
-	menu =  " What would you like to do? Plese enter:" 
+	string menu =  " What would you like to do? Plese enter:" 
 			"1  - to add Money of Currency type USD to the Bank,\n"
 			"2  - to remove Money of Currency type USD from the Bank,\n"
 			"3  - to display how much total Money in USD is in the Bank,\n"
@@ -111,7 +112,7 @@ void check_is_patron( Bank & bank )
 	cin >> name;
 	if(bank.is_patron(name)){
 		Patron patron = bank.get_patron( name );
-		cout << "Patron name: "<< patron.get_name() << endl << "Patron Number: " patron.get_account_number() << endl << "patron balance: " << patron.get_balance() << endl;
+		cout << "Patron name: "<< patron.get_name() << endl << "Patron Number: " << patron.get_account_number() << endl << "patron balance: " << patron.get_balance() << endl << endl;
 	} else {
 		cout << name << " is not a patron here";
 	}
@@ -130,9 +131,14 @@ void make_deposit( Bank & bank )
 	string name;
 	cin >> name;
 
-	double amount = prompt_for_double( "How much money should be deposited?" );
-
-	bank.deposit( patron, amount );
+	if(bank.is_patron(name)){
+		Patron patron = bank.get_patron( name );
+		double amount = prompt_for_double( "How much money should be deposited?" );
+		bank.deposit( patron, amount );
+	}
+	else {
+		cout << name << " is not a patron here";
+	}
 }
 
 void make_withdraw( Bank & bank )
@@ -141,19 +147,25 @@ void make_withdraw( Bank & bank )
 	string name;
 	cin >> name;
 
-	double amount = prompt_for_double( "How much money should be withdrawn?" );
+	if(bank.is_patron(name)){
+		Patron patron = bank.get_patron( name );
+		double amount = prompt_for_double( "How much money should be withdrawn?" );
+		bank.withdraw( patron, amount );
+	}
+	else {
+		cout << name << " is not a patron here";
+	}
 
-	bank.deposit( patron, amount );
 }
 
 void display_overdrawn_patrons( Bank & bank )
 {
-	
+	bank.display_overdrawn();
 }
 
 void display_transactions( Bank & bank )
 {
-	
+	bank.display_transactions();
 }
 
 int main ( ) {

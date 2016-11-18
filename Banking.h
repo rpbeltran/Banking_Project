@@ -31,7 +31,7 @@ namespace Banking {
 
 		double exchange_rate;
 
-		Currency ( String, Double );
+		Currency ( string, double );
 
 	};
 
@@ -50,17 +50,18 @@ namespace Banking {
 
 		Currency currency;
 
-		Double amount;
+		double amount;
 
 	public:
 
-		Money ( Currency, Double );
+		Money ( );
+		Money ( Currency, double );
 		Money ( Currency );
 
 		Currency get_currency( ) const;
 		double   get_amount() const;
 
-		void set_amount( Double );
+		void set_amount( double );
 
 	};
 
@@ -81,7 +82,7 @@ namespace Banking {
 
 	class Patron {
 
-		String name;
+		string name;
 
 		int account_number;
 
@@ -89,9 +90,9 @@ namespace Banking {
 
 	public:
 
-		Patron ( String, int, double );
+		Patron ( string, int, double );
 
-		String get_name( ) const;
+		string get_name( ) const;
 		int    get_account_number( ) const;
 		double get_balance( ) const;
 
@@ -99,8 +100,8 @@ namespace Banking {
 
 	};
 
-	ostream& operator<<(ostream& os, const Patron & patron)
-	istream& operator>>(istream& is, Patron & patron)
+	ostream& operator<<(ostream& os, const Patron & patron);
+	istream& operator>>(istream& is, Patron & patron);
 
 
 
@@ -123,7 +124,7 @@ namespace Banking {
     	};
 
 		// Patron Data
-		String patron_name;
+		string patron_name;
 		int patron_account;
 		double new_balance;
 
@@ -134,12 +135,12 @@ namespace Banking {
 		Chrono::Time time;
 
 		// Constructor
-		Transaction( String, int, double, Type, double, Chrono::Date, Chrono::Time );
+		Transaction( string, int, double, Type, double, Chrono::Date, Chrono::Time );
 	
 	};
 
-	ostream& operator<<(ostream& os, const Transaction & transaction)
-	istream& operator>>(istream& is, Transaction & transaction)
+	ostream & operator<< (ostream& os, const Transaction & transaction);
+	istream & operator>> (istream& is, Transaction & transaction);
 	
 
 
@@ -153,35 +154,39 @@ namespace Banking {
 
 	class Bank {
 
+		Money money;
+
+	protected:
+
 		vector<Patron> patrons;
 
 		vector<Transaction> transactions;
 
-		Money money;
-
 	public:
 
 		Bank( );
-		Bank( String ); // Load state from a text file
+		Bank( string ); // Load state from a text file
 
-		void Save_to( String ) const; // Dump State into a textfile
+		void Save_to( string ) const; // Dump State into a textfile
 
-		bool    is_patron ( String ) const; // Check if a name belongs to a patron
-		Patron get_patron ( String ) const; // Get patron by name
+		bool    is_patron ( string ) const; // Check if a name belongs to a patron
+		Patron get_patron ( string ) const; // Get patron by name
 		void   add_patron ( Patron ); // Add a new patron
 
 		void display_patrons ( ); // Display all patrons data
 		void display_overdrawn(); // Displays overdrawn patrons
 		void display_transactions();
 
-		void withdraw ( Patron & p, double );
-		void deposit  ( Patron & p, double );
+		void withdraw ( Patron &, double );
+		void deposit  ( Patron &, double );
 
 		double total_money( ) const; // Get total money in USD
 		void add_money( double ); // Add money in USD
 		void remove_money( double );
 
 		int patron_count() { return patrons.size(); }
+
+		Currency currency( string ); // return currency object from it's name
 
 	};
 
@@ -201,9 +206,7 @@ namespace Banking {
 	public:
 
 		International_Bank ( Currency );
-		International_Bank ( Currency, String );
-
-		Currency currency( string ); // return currency object from it's name
+		International_Bank ( string );
 
 		void withdraw ( Patron, Currency, double );
 		void deposit ( Patron, Currency, double );
@@ -217,5 +220,8 @@ namespace Banking {
 	};
 
 
-
 }
+
+
+
+
