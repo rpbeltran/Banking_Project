@@ -1,0 +1,190 @@
+
+US Bank Testing Document
+
+Ryan Beltran
+Sam Lin
+
+Build Command:
+
+	>> g++ Banking.cpp BankIntlMain.cpp Chrono.cpp
+
+
+Testing Procedure:
+
+	To test International Bank, I ran the program with the following operations:
+
+		Create a russian bank
+
+		Add 1000 USD to the bank
+		Remove 200 USD from the bank
+
+		Display the money in the bank
+			Expectation: 
+				Should display amounts of all 5 types of currencies
+				Stronger currencies should be less plentiful, except USD
+
+		Add a patron named Ryan to the bank
+		Add a patron named Sam to the bank
+
+		Deposit 500 USD in Ryan
+		Deposit 1000 RUB in Sam
+
+		Withdraw 999999 USD from Ryan ( it should not let me do this )
+
+			Result >  Sorry, The bank has insufficient funds for this
+
+		Withdraw 600 USD from Ryan
+		Withdraw 100 JPY from Sam
+
+		Display Information on Ryan
+			Expectation: Displays info on Ryan
+
+		Display Information on Sam
+			Expectation: Displays info on sam
+
+		Display Information on Bill
+			Expectation: Warns that bill is not a patron
+
+		Display the money in the bank
+			Expectation: Shows reasonable amounts for all 5 currencies
+
+		Display patron information
+			Expectations: 
+				Shows two patrons ryan and sam. 
+				Ryan has negative balance
+				Sam has positive balance
+
+		Display overdrawn patrons
+			Expectation: Only displays ryan
+
+		Display transactions:
+			Expectation: Shows all five transactions ( 2 deposits, 3 withdraws )
+
+		Quit the program and save to a file called testing2
+
+		----
+
+		Run the file again, and open the savefile called testing2
+
+		Display the money in the bank
+		Display patron information
+		Display overdrawn patrons
+		Display transactions:
+
+				Expectations: all results agree with final run displays before previously quiting the program
+
+
+Testing Justiifications:
+
+	These procedures test every function of our program with multiple forms of currencies, good and bad input
+
+
+Testing Results:
+
+	Create a russian bank
+	Add 1000 USD to the bank
+	Remove 200 USD from the bank
+
+	Display the money in the bank
+		
+		Results >
+			USD: 1103.17
+			GBP: 230.408
+			EUR: 269.82
+			JPY: 30950.4
+			RUB: 20000
+
+
+	Add a patron named Ryan to the bank
+	Add a patron named Sam to the bank
+	Deposit 500 USD in Ryan
+	Deposit 1000 RUB in Sam
+	Withdraw 999999 USD from Ryan ( it should not let me do this )
+	Withdraw 600 USD from Ryan
+	Withdraw 100 JPY from Sam
+
+	Display Information on Ryan
+		
+		Results >
+
+			Patron name: Ryan
+			Patron Number: 0
+			patron balance: -6597
+
+
+	Display Information on Sam
+		
+		Results >
+
+			Patron name: Sam
+			Patron Number: 1
+			patron balance: 900
+
+	Display Information on Bill
+		
+		Result > Bill is not a patron here
+
+	Display the money in the bank
+		
+		Results > 
+
+			USD: 1003.17
+			GBP: 230.408
+			EUR: 269.82
+			JPY: 30950.4
+			RUB: 20900
+
+
+
+	Display patron information
+		
+		Results >
+
+			Patron name: Ryan
+			Patron Number: 0
+			patron balance: -6597
+
+			Patron name: Sam
+			Patron Number: 1
+			patron balance: 900
+
+	Display overdrawn patrons
+		
+		Results >
+
+			Patron name: Ryan
+			Patron Number: 0
+			patron balance: -6597
+
+	Display transactions:
+		
+		Results >
+
+			(Ryan,0,32985,deposit,(2016,11,18),(11:16:55:2))
+			(Sam,1,1000,deposit,(2016,11,18),(11:17:13:2))
+			(Ryan,0,39582,withdraw,(2016,11,18),(11:18:46:2))
+			(Sam,1,100,withdraw,(2016,11,18),(11:20:4:2))
+
+
+	Quit the program and save to a file called testing
+
+	----
+
+	Run the file again, and open the savefile called testing
+
+	Display the money in the bank
+	Display patron information
+	Display overdrawn patrons
+	Display transactions:
+
+			Resulting values agreed with the results of the last run
+
+
+
+
+Conclusion
+
+	Our project appears to be working correctly, providing reasonable output for each test case
+
+
+

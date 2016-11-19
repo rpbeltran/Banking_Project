@@ -1,0 +1,186 @@
+
+US Bank Testing Document
+
+Ryan Beltran
+Sam Lin
+
+Build Command:
+
+	>>  g++ Banking.cpp BankUSMain.cpp Chrono.cpp
+
+Testing Procedure:
+
+	To test US Bank, I ran the program with the following operations:
+
+		Add $1000 to the bank
+		Remove $200 from the bank
+
+		Display the money in the bank
+			Expectation: 800
+
+		Add a patron named Ryan to the bank
+		Add a patron named Sam to the bank
+
+		Deposit $500 in Ryan
+		Deposit $1000 in Sam
+
+		Withdraw $999999 from Ryan ( it should not let me do this )
+		Withdraw $600 from Ryan
+		Withdraw $500 from Sam
+
+		Display Information on Ryan
+			Expectation: Displays info on Ryan
+
+		Display Information on Sam
+			Expectation: Displays info on sam
+
+		Display Information on Bill
+			Expectation: Warns that bill is not a patron
+
+		Display the money in the bank
+			Expectation: $1200
+
+		Display patron information
+			Expectations: 
+				Shows two patrons ryan and sam. 
+				Ryan has -$100
+				Sam has $500
+
+		Display overdrawn patrons
+			Expectation: Only displays ryan
+
+		Display transactions:
+			Expectation: Shows all four transactions ( 2 deposits, 2 withdraws )
+
+		Quit the program and save to a file called testing
+
+		----
+
+		Run the file again, and open the savefile called testing
+
+		Display the money in the bank
+			Expectation $1200
+
+		Display patron information
+			Expectations: 
+				Shows two patrons ryan and sam. 
+				Ryan has -$100
+				Sam has $500
+
+		Display overdrawn patrons
+			Expectation: Only displays ryan
+
+		Display transactions:
+			Expectation: Shows all four transactions ( 2 deposits, 2 withdraws )
+
+
+Testing Justiifications:
+
+	These procedures test every function of our program
+
+
+
+Testing Results:
+
+	Add $1000 to the bank
+	Remove $200 from the bank
+	Display the money in the bank
+		
+		Result > The bank contains 800 dollars
+
+	Add a patron named Ryan to the bank
+	Add a patron named Sam to the bank
+	Deposit $500 in Ryan
+	Deposit $1000 in Sam
+	Withdraw $999999 from Ryan ( it should not let me do this )
+
+		Result >  Sorry, The bank has insufficient funds for this
+
+	Withdraw $600 from Ryan
+	Withdraw $500 from Sam
+
+	Display Information on Ryan
+		
+		Result >Patron name: Ryan
+				Patron Number: 0
+				patron balance: -100
+
+
+	Display Information on Sam
+
+		Result >Patron name: Sam
+				Patron Number: 1
+				patron balance: 500
+
+	Display Information on Bill
+		
+		Result > Bill is not a patron here
+
+	Display the money in the bank
+		
+		Result > The bank contains 1200 dollars
+
+	Display patron information
+		
+		Result > Patron name: Ryan
+				 Patron Number: 0
+				 patron balance: -100
+
+				 Patron name: Sam
+				 Patron Number: 1
+				 patron balance: 500
+
+	Display overdrawn patrons
+
+		Result > Patron name: Ryan
+				 Patron Number: 0
+				 patron balance: -100
+
+	Display transactions:
+		
+		Result > (Ryan,0,500,deposit,(2016,11,18),(10:58:33:2))
+				 (Sam,1,1000,deposit,(2016,11,18),(10:58:46:2))
+				 (Ryan,0,600,withdraw,(2016,11,18),(11:0:4:2))
+				 (Sam,1,500,withdraw,(2016,11,18),(11:0:13:2))
+
+	Quit the program and save to a file called testing
+
+	----
+
+	Run the file again, and open the savefile called testing
+
+	Display the money in the bank
+		
+		Results > The bank contains 1200 dollars
+
+	Display patron information
+	
+		Results > Patron name: Ryan
+				  Patron Number: 0
+				  patron balance: -100
+
+				  Patron name: Sam
+				  Patron Number: 1
+				  patron balance: 500
+
+	Display overdrawn patrons
+
+		Results > Patron name: Ryan
+				  Patron Number: 0
+				  patron balance: -100
+
+	Display transactions:
+
+		Results > (Ryan,0,500,deposit,(2016,11,18),(10:58:33:2))
+				  (Sam,1,1000,deposit,(2016,11,18),(10:58:46:2))
+				  (Ryan,0,600,withdraw,(2016,11,18),(11:0:4:2))
+				  (Sam,1,500,withdraw,(2016,11,18),(11:0:13:2))
+
+
+Conclusions:
+
+	Our project appears to be working correctly, providing reasonable output for each test case.
+
+
+
+

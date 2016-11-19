@@ -84,7 +84,7 @@ void add_money_to_bank( Bank & bank )
 
 void remove_money_from_bank( Bank & bank )
 {
-	double amount = prompt_for_double("How much money would you like to add? (in USD): ");
+	double amount = prompt_for_double("How much money would you like to remove? (in USD): ");
 	bank.remove_money( amount );
 }
 

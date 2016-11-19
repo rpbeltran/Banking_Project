@@ -7,8 +7,7 @@ namespace Banking {
 
 	// -------------------------------------------------------------------------------------------------------------
 
-	// Currency structft8drgyhcfghjcd tfvygbuhwx5c6v7b8na3sx4dc5fv6gb7h8
-
+	// Currency struct
 
 	Currency::Currency( string t, double er ) : type( t ), exchange_rate( er ) { }
 
@@ -570,11 +569,11 @@ namespace Banking {
 
 	International_Bank::International_Bank ( Currency dc ) : default_currency( dc ) 
 	{ 
-		monies.push_back(  Money( currency("USD"), 20000*currency("USD").exchange_rate / default_currency.exchange_rate )  );
-		monies.push_back(  Money( currency("GBP"), 20000*currency("GBP").exchange_rate / default_currency.exchange_rate )  );
-		monies.push_back(  Money( currency("EUR"), 20000*currency("EUR").exchange_rate / default_currency.exchange_rate )  );
-		monies.push_back(  Money( currency("JPY"), 20000*currency("JPY").exchange_rate / default_currency.exchange_rate )  );
-		monies.push_back(  Money( currency("RUB"), 20000*currency("RUB").exchange_rate / default_currency.exchange_rate )  );
+		monies.push_back(  Money( currency("USD"), 20000 * currency("USD").exchange_rate / default_currency.exchange_rate )  );
+		monies.push_back(  Money( currency("GBP"), 20000 * currency("GBP").exchange_rate / default_currency.exchange_rate )  );
+		monies.push_back(  Money( currency("EUR"), 20000 * currency("EUR").exchange_rate / default_currency.exchange_rate )  );
+		monies.push_back(  Money( currency("JPY"), 20000 * currency("JPY").exchange_rate / default_currency.exchange_rate )  );
+		monies.push_back(  Money( currency("RUB"), 20000 * currency("RUB").exchange_rate / default_currency.exchange_rate )  );
 	}
 
 
