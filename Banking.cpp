@@ -7,12 +7,10 @@ namespace Banking {
 
 	// -------------------------------------------------------------------------------------------------------------
 
-	// Currency struct
+	// Currency structft8drgyhcfghjcd tfvygbuhwx5c6v7b8na3sx4dc5fv6gb7h8
 
 
 	Currency::Currency( string t, double er ) : type( t ), exchange_rate( er ) { }
-
-
 
 
 	// -------------------------------------------------------------------------------------------------------------
