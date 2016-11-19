@@ -167,7 +167,7 @@ namespace Banking {
 		Bank( );
 		Bank( string ); // Load state from a text file
 
-		void Save_to( string ); // Dump State into a textfile
+		void virtual Save_to( string ); // Dump State into a textfile
 
 		bool    is_patron ( string ) const; // Check if a name belongs to a patron
 		Patron& get_patron ( string ); // Get patron by name
@@ -218,6 +218,8 @@ namespace Banking {
 		double total_money( ) const; // Get total money in default_currency
 		void add_money( Currency, double );
 		void remove_money( Currency, double );
+
+		void Save_to( string );
 
 	};
 

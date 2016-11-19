@@ -284,10 +284,8 @@ namespace Banking {
 	//		patron1
 	//		patron2
 	//		...
-	//		
 	//		transaction1
 	//		transaction2
-	//		...
 	//		<end-of-file>
 	// Post-condition: Bank is initialized with entries read into patrons, and transations vectors
 	// Error-handling: throws exceptions for:
@@ -587,7 +585,12 @@ namespace Banking {
 	// Pre-condition: String filename is the filename for the data file to load in
 	// Input File Format:
 	//		currency_name
-	//
+	//		money
+	//		money
+	//		money
+	//		money
+	//		money
+	//		...
 	//		patron1
 	//		patron2
 	//		...
@@ -602,8 +605,81 @@ namespace Banking {
 	//	file not formatted properly
 	{
 
-		// Phase 2
+		ifstream file( filename );
 
+		string dc_type;
+		getline(file, dc_type);
+		default_currency = currency( dc_type );
+
+		for (int i = 0; i<5; i++) {
+			Money m;
+			string m_str;
+			stringstream m_ss;
+			getline(file, m_str);
+			m_ss << m_str;
+			m_ss >> m;
+			monies.push_back( m );
+		}
+		
+
+		string temp;
+		getline(file, temp);
+		
+	    string str; 
+	    stringstream ss;
+
+	    while (getline(file, str))
+	    {
+	        if ( str == "--")
+	        	break;
+	        
+	        Patron p ("",0,0);
+	        ss << str;
+	        ss >> p;
+
+	        patrons.push_back( p );
+
+	        ss.str("");
+	    
+	    }
+
+	    while (getline(file, str))
+	    {   
+	        Transaction t ( "",0,0, Transaction::Type(1),0,Chrono::Date(),Chrono::Time() );
+	        ss << str;
+	        ss >> t;
+
+	        transactions.push_back( t );
+	        ss.str("");
+	    }
+
+	    file.close();
+
+	}
+
+	void International_Bank::Save_to( string filename ) 
+	// Description: saves bank data to a text file
+	// Precondition: String filename points is the name of the file to be created
+	// Post-condition: patrons and transactions are 
+	{
+		ofstream file ( filename );
+
+		file << default_currency.type << endl;
+
+		for (Money m : monies)
+			file << m << endl;
+
+		file << "--" << endl;
+
+		for ( Patron & p : patrons)
+			file << p << endl;
+		
+		file << "--" << endl;
+		
+		for ( Transaction & t : transactions )
+			file << t << endl;
+	
+		file.close();
 	}
 
 

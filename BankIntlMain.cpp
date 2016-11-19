@@ -220,11 +220,44 @@ Currency prompt_country() {
 
 }
 
+void quit( Bank & bank ) {
+	
+	string save = "";
+	while ( (save!="yes")&&(save!="no")){
+		cout << "save to a file? Input 'yes' or 'no': ";
+		cin >> save;
+	}
+
+	if (save == "yes") {
+		string save_file = "";
+		cout << "Name of save file (no spaces): ";
+		cin >> save_file;
+		bank.Save_to( save_file );
+	}
+
+}
+
 int main ( ) {
 
-	Currency dc = prompt_country();
+	International_Bank bank ( Currency( "USD", 1) );
 
-	International_Bank bank ( dc );
+	string load = "";
+	while ( (load!="yes")&&(load!="no")) {
+		cout << "load from a file? Input 'yes' or 'no': ";
+		cin >> load;
+	}
+
+	if (load == "yes") {
+		string save_file = "";
+		cout << "Name of save file (no spaces): ";
+		cin >> save_file;
+		bank = International_Bank( save_file );
+	}
+
+	else {
+		Currency dc = prompt_country( );
+		bank = International_Bank ( dc );
+	}
 
 	int option = 0;
 	while ( option != 11 ) {
@@ -274,6 +307,7 @@ int main ( ) {
 				break;
 
 			case 11: 
+				quit( bank );
 				break;
 
 			default: 
