@@ -147,6 +147,7 @@ void make_deposit( Bank & bank )
 
 void make_withdraw( Bank & bank )
 {
+	
 	cout << "Enter patron name (no spaces): ";
 	string name;
 	cin >> name;
@@ -156,10 +157,11 @@ void make_withdraw( Bank & bank )
 		double amount = prompt_for_double( "How much money should be withdrawn?" );
 		bank.withdraw( patron, amount );
 	}
+
 	else {
 		cout << name << " is not a patron here";
 	}
-
+	
 }
 
 void display_overdrawn_patrons( Bank & bank )
@@ -173,12 +175,38 @@ void display_transactions( Bank & bank )
 }
 
 void quit( Bank & bank ) {
-	bank.Save_to("TODO");
+	
+	string save = "";
+	while ( (save!="yes")&&(save!="no")){
+		cout << "save to a file? Input 'yes' or 'no': ";
+		cin >> save;
+	}
+
+	if (save == "yes") {
+		string save_file = "";
+		cout << "Name of save file (no spaces): ";
+		cin >> save_file;
+		bank.Save_to( save_file );
+	}
+
 }
 
 int main ( ) {
 
 	Bank bank;
+
+	string load = "";
+	while ( (load!="yes")&&(load!="no")){
+		cout << "load from a file? Input 'yes' or 'no': ";
+		cin >> load;
+	}
+
+	if (load == "yes") {
+		string save_file = "";
+		cout << "Name of save file (no spaces): ";
+		cin >> save_file;
+		bank = Bank( save_file );
+	}
 
 	int option = 0;
 	while ( option != 11 ) {
@@ -228,6 +256,7 @@ int main ( ) {
 				break;
 
 			case 11: 
+				quit( bank );
 				break;
 
 			default: 

@@ -48,21 +48,26 @@ namespace Banking {
 	// Input format:
 	//(name,account_number,balance)
 	{
+
 	    string type;
+	    char t1, t2, t3;
 	    double er;
 	    double amount;
 	    char ch1, ch2, ch3, ch4;
-	    is >> ch1 >> type >> ch2 >> er >> ch3 >> amount >> ch4;
+	    is >> ch1 >> t1 >> t2 >> t3 >> ch2 >> er >> ch3 >> amount >> ch4;
+	    
+	    stringstream t_build;
+	    t_build << t1 <<t2 <<t3;
+	    t_build >> type;
+
 	    if (!is) return is;
 	    if (ch1!='(' || ch2!=',' || ch3!=',' || ch4!=')') { // oops: format error
 	        is.clear(ios_base::failbit);                    // set the fail bit
 	        return is;
 	    }
-	    money = Money( Currency( type, er), amount );// update patron
+	    money = Money( Currency( type, er), amount );// update money
 	    return is;
 	}
-
-
 
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -112,15 +117,32 @@ namespace Banking {
 	    string name;
 	    int account_number;
 	    double balance;
-	    char ch1, ch2, ch3, ch4;
-	    is >> ch1 >> name >> ch2 >> account_number >> ch3 >> balance >> ch4;
-	    if (!is) return is;
-	    if (ch1!='(' || ch2!=',' || ch3!=',' || ch4!=')') { // oops: format error
-	        is.clear(ios_base::failbit);                    // set the fail bit
-	        return is;
+	    char ch1, ch3, ch4;
+
+	    is >> ch1;
+
+	    stringstream name_ss;
+	    char name_ch;
+
+	    while ( is >> name_ch ) {
+	    	
+	    	if ( name_ch == ',' )
+	    		break;
+	    	
+	    	name_ss << name_ch;
+	    
 	    }
+	    name_ss >> name;
+
+	    is >> account_number;
+	    is >> ch3;
+
+	    is >> balance;
+	    is >> ch4;
+
 	    patron = Patron(name,account_number,balance);     // update patron
 	    return is;
+
 	}
 
 
@@ -166,7 +188,7 @@ namespace Banking {
 	// Input format:
 	//( patron_name, patron_account, type, amount, date, time ) 
 	{
-		string patron_name;
+	    string patron_name;
 	    int patron_account;
 	    double new_balance;
 		Transaction::Type type = Transaction::Type(1);
@@ -174,16 +196,72 @@ namespace Banking {
 		double amount;
 		Chrono::Date date;
 		Chrono::Time time;
-	    char ch1, ch2, ch3, ch4, ch5, ch6, ch7;
-	    is >> ch1 >> patron_name >> ch2 >> patron_account >> ch3 >> type_string >> ch4 >> amount >> ch5 >> date >> ch6 >> time >> ch7;
-		if (type_string == "deposit") { type = Transaction::Type(2); }
-	    if (!is) return is;
-	    if (ch1!='(' || ch2!=',' || ch3!=',' || ch4!=',' || ch5!=',' || ch6!=',' || ch7!=')') { // oops: format error
-	        is.clear(ios_base::failbit);                    // set the fail bit
-	        return is;
+		char ch1, ch2, ch3, ch4, ch5, ch6, ch7;
+
+		//(
+		is >> ch1;
+
+		// account_name
+		stringstream name_ss;
+	    char name_ch;
+	    while ( is >> name_ch ) {
+	    	if ( name_ch == ',' )
+	    		break;
+	    	name_ss << name_ch;
 	    }
+	    name_ss >> patron_name;
+
+	    //,
+
+	    //patron_account
+	    is >> patron_account;
+
+	    //, 
+	    is >> ch3;
+
+	    //amount
+	    is >> amount;
+
+	    //, 
+	    is >> ch5;
+
+	    //type
+	    stringstream type_ss;
+	    char type_ch;
+	    while ( is >> type_ch ) {
+	    	if ( type_ch == ',' )
+	    		break;
+	    	type_ss << type_ch;
+	    }
+	    type_ss >> type_string;
+	    if (type_string == "deposit") { 
+	    	type = Transaction::Type(2); 
+	    }
+
+	    //, 
+
+	    
+
+	    //date
+	    is >> date;
+	    
+	    //, 
+	    is >> ch6;
+	    
+	    //time 
+	    is >> time;
+	    
+	    //) 
+	    is >> ch7;
+
 	    transaction = Transaction( patron_name,patron_account,new_balance,type,amount,date,time );     // update transaction
 	    return is;
+
+
+
+
+
+
 	}
 
 
@@ -209,15 +287,54 @@ namespace Banking {
 	//		
 	//		transaction1
 	//		transaction2
-	//		..
+	//		...
 	//		<end-of-file>
 	// Post-condition: Bank is initialized with entries read into patrons, and transations vectors
 	// Error-handling: throws exceptions for:
 	//	file not found
 	//	file not formatted properly
 	{
-		money = Money( Currency("USD",1.0) );  // Get rid of this in phase 2
-		// Phase 2
+		
+		ifstream file( filename );
+
+		string m_str;
+		stringstream m_ss;
+		getline(file, m_str);
+		m_ss << m_str;
+		m_ss >> money;
+
+		string temp;
+		getline(file, temp);
+		
+	    string str; 
+	    stringstream ss;
+
+	    while (getline(file, str))
+	    {
+	        if ( str == "--")
+	        	break;
+	        
+	        Patron p ("",0,0);
+	        ss << str;
+	        ss >> p;
+
+	        patrons.push_back( p );
+
+	        ss.str("");
+	    
+	    }
+
+	    while (getline(file, str))
+	    {   
+	        Transaction t ( "",0,0, Transaction::Type(1),0,Chrono::Date(),Chrono::Time() );
+	        ss << str;
+	        ss >> t;
+
+	        transactions.push_back( t );
+	        ss.str("");
+	    }
+
+	    file.close();
 
 	}
 
@@ -226,13 +343,18 @@ namespace Banking {
 	// Precondition: String filename points is the name of the file to be created
 	// Post-condition: patrons and transactions are 
 	{
-		cout << money;
-		cout << "--" << endl;
+		ofstream file ( filename );
+
+		file << money << endl;
+		file << "--" << endl;
 		for ( Patron & p : patrons)
-			cout << p << endl;
-		cout << "--" << endl;
+			file << p << endl;
+		file << "--" << endl;
 		for ( Transaction & t : transactions )
-			cout << t << endl;
+			file << t << endl;
+	
+		file.close();
+	
 	}
 
 	bool Bank::is_patron ( string name ) const
@@ -320,7 +442,7 @@ namespace Banking {
 	{
 
 		if ( transactions.size() == 0 ) {
-			cout << "Bank currently has no patrons." << endl << endl;
+			cout << "Bank currently has no transactions on file." << endl << endl;
 		}
 
 		for (int i = 0; i < transactions.size(); ++i) {
