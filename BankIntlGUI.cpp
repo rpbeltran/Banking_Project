@@ -9,6 +9,26 @@
 using namespace Banking;
 using namespace Graph_lib; // uncertain
 
+void prompt_for_file ( International_Bank & bank, string bank_country )
+// Description: Loads bank from file if prompted
+// Precondition: cin is empty, 
+// Postcondition: The Bank in country X may be loaded with file
+{
+
+	while ( (load!="yes") && (load!="no") ) {
+		string load = "";
+		cout << "/n Would you like to load the data for the Bank in " << bank_country << " from a file? Input 'yes' or 'no': ";
+		cin >> load;
+	}
+
+	if (load == "yes") {
+		string save_file = "";
+		cout << "Name of save file (no spaces): ";
+		cin >> save_file;
+		bank = International_Bank( save_file );
+	}
+
+}
 
 int prompt_for_int ( string message )
 // Description: Fetches the next int from cin, ignoring invalid (non-integer) inputs.
@@ -193,37 +213,6 @@ void display_transactions( International_Bank & bank )
 	bank.display_transactions();
 }
 
-Currency prompt_country() {
-
-	string menu =  "\nWhat coutry are you in?\n" 
-		"\t1  - United States\n"
-		"\t2  - Great Britian\n"
-		"\t3  - European Economic Community\n"
-		"\t4  - Japan\n"
-		"\t5  - Russia\n";
-
-
-	int selection = 0;
-	while ( ( selection < 1 ) || ( selection > 5 ) ) {
-		selection = prompt_for_int( menu );
-	}
-
-	switch( selection ) {
-
-		case 2 : return Currency( "GBP", .76 );
-
-		case 3 : return Currency( "EUR", .89 );
-
-		case 4 : return Currency( "JPY", 102.09 ); 
-
-		case 5 : return Currency( "RUB", 65.97 );
-
-	}
-
-	return Currency( "USD", 1.0 );
-
-}
-
 void quit( Bank & bank ) {
 	
 	string save = "";
@@ -322,122 +311,127 @@ static void cb_quit(Address, Address);
 Bank_window::Bank_window(International_Bank bank, Point xy, int w, int h, const string& title) : 
 
   // initialization - start by calling constructor of base class 
-Window(xy,w,h,title),
+	Window(xy,w,h,title),
 
-  // initialize "Next curve" button
-next_button(
-	      Point(x_max()-150,0),   // location of button
-	      70, 20,                 // dimensions of button
-	      "Next curve",           // label of button
-	      cb_next),               // callback function for button
-  // initialize quit button
-quit_button(
-	      Point(x_max()-70,0),    // location of button
-	      70, 20,                 // dimensions of button 
-	      "Quit",                 // label of button
-	      cb_quit),               // callback function for button
-  // initialize the next_x inbox
-next_x(
-	 Point(x_max()-330,0),       // location of box
-	 50, 20,                     // dimensions of box
-	 "coord x:"),                // label of box 
-  // initialize the next_y inbox
-next_y(
-	 Point(x_max()-210,0),       // location of box
-	 50, 20,                     // dimensions of box
-	 "coord y:"),                // label of box
-  // initialize the outbox
-xy_out(
-	 Point(100,0),               // location of box
-	 100, 20,                    // dimensions of box
-	 "coord (x,y):"),            // label of box
-// initialize the scalar_x inbox
-next_xx(
-	 Point(x_max()-330,30),      // location of box
-	 50, 20,                     // dimensions of box
-	 "remove x:"),               // label of box 
-  // initialize the scalar_y inbox
-next_yx(
-	 Point(x_max()-210,30),      // location of box
-	 50, 20,                     // dimensions of box
-	 "remove y:"),               // label of box
-  // initialize the outbox
-xyx_out(
-	 Point(100,30),              // location of box
-	 100, 20,                    // dimensions of box
-	 "remove (x,y):"),           // label of box
-  // initialize the color menu
-color_menu(                        
-	     Point(x_max()-70,30),   // location of menu
-	     70, 20,                 // dimensions of menu
-	     Menu::vertical,         // list menu items vertically
-	     "color"),               // label of menu 
-  // initialize the menu button
-menu_button(
-	      Point(x_max()-80,30),  // location of menu button
-	      80, 20,                // dimensions of button 
-	      "color menu",          // label of button
-	      cb_menu)               // callback for button
+	// initialize "Next curve" button
+	next_button(
+			Point(x_max()-150,0),   // location of button
+			70, 20,                 // dimensions of button
+			"Next curve",           // label of button
+			cb_next),               // callback function for button
+	// initialize quit button
+	quit_button(
+			Point(x_max()-70,0),    // location of button
+			70, 20,                 // dimensions of button 
+			"Quit",                 // label of button
+			cb_quit),               // callback function for button
+	// initialize the next_x inbox
+	next_x(
+		Point(x_max()-330,0),       // location of box
+		50, 20,                     // dimensions of box
+		"coord x:"),                // label of box 
+	// initialize the next_y inbox
+	next_y(
+		Point(x_max()-210,0),       // location of box
+		50, 20,                     // dimensions of box
+		"coord y:"),                // label of box
+	// initialize the outbox
+	xy_out(
+		Point(100,0),               // location of box
+		100, 20,                    // dimensions of box
+		"coord (x,y):"),            // label of box
+	// initialize the scalar_x inbox
+	next_xx(
+		Point(x_max()-330,30),      // location of box
+		50, 20,                     // dimensions of box
+		"remove x:"),               // label of box 
+	// initialize the scalar_y inbox
+	next_yx(
+		Point(x_max()-210,30),      // location of box
+		50, 20,                     // dimensions of box
+		"remove y:"),               // label of box
+	// initialize the outbox
+	xyx_out(
+		Point(100,30),              // location of box
+		100, 20,                    // dimensions of box
+		"remove (x,y):"),           // label of box
+	// initialize the color menu
+	color_menu(                        
+			Point(x_max()-70,30),   // location of menu
+			70, 20,                 // dimensions of menu
+			Menu::vertical,         // list menu items vertically
+			"color"),               // label of menu 
+	// initialize the menu button
+	menu_button(
+			Point(x_max()-80,30),  // location of menu button
+			80, 20,                // dimensions of button 
+			"color menu",          // label of button
+			cb_menu)               // callback for button
 
   // body of constructor follows
 {
-  // attach buttons and boxes to window
-  attach(next_button);
-  attach(quit_button);
-  attach(next_x);
-  attach(next_y);
-  attach(xy_out);
-  xy_out.put("no coord");        // output to out box
-  attach(next_xx);
-  attach(next_yx);
-  attach(xyx_out);
-  xyx_out.put("no coord");       // output to out box
 
-  dll.last_removed_point = Point(next_xx.get_int(),next_yx.get_int());
+	// attach buttons and boxes to window
+	attach(next_button);
+	attach(quit_button);
+	attach(next_x);
+	attach(next_y);
+	attach(xy_out);
+	xy_out.put("no coord");        // output to out box
+	attach(next_xx);
+	attach(next_yx);
+	attach(xyx_out);
+	xyx_out.put("no coord");       // output to out box
 
-  // First make 3 buttons for color menu, one for each color, and 
-  // attach them to the menu: the attach function of the Menu struct
-  // adjusts the size and location of the buttons; note callback functions).
-  // Then attach menu to window but hide it (initially, the menu button
-  // is displayed, not the actual menu of color choices).
+	dll.last_removed_point = Point(next_xx.get_int(),next_yx.get_int());
 
-  color_menu.attach(new Button(Point(0,0),0,0,"red",cb_red)); 
-  color_menu.attach(new Button(Point(0,0),0,0,"blue",cb_blue));
-  color_menu.attach(new Button(Point(0,0),0,0,"black",cb_black));
-  attach(color_menu);
-  color_menu.hide(); 
+	// First make 3 buttons for color menu, one for each color, and 
+	// attach them to the menu: the attach function of the Menu struct
+	// adjusts the size and location of the buttons; note callback functions).
+	// Then attach menu to window but hide it (initially, the menu button
+	// is displayed, not the actual menu of color choices).
 
-  // attach menu button
-  attach(menu_button);
+	color_menu.attach(new Button(Point(0,0),0,0,"red",cb_red)); 
+	color_menu.attach(new Button(Point(0,0),0,0,"blue",cb_blue));
+	color_menu.attach(new Button(Point(0,0),0,0,"black",cb_black));
+	attach(color_menu);
+	color_menu.hide(); 
 
-  // attach shape that holds the DLL to be displayed
-  attach(dll);
+	// attach menu button
+	attach(menu_button);
+
+	// attach shape that holds the DLL to be displayed
+	attach(dll);
 }
 
 // Define window class' functions here.
 
+
+
 int main ( ) {
 
-	International_Bank bank ( Currency( "USD", 1) );
+	// Construct 5 Bank's in 5 countries
+	International_Bank US ( Currency( "USD", 1.0) );
+	International_Bank GB ( Currency( "GBP", 0.76) );
+	International_Bank DE ( Currency( "EUR", 0.89) );
+	International_Bank JP ( Currency( "JPY", 102.09) );
+	International_Bank RU ( Currency( "RUB", 65.97) );
 
-	string load = "";
-	while ( (load!="yes")&&(load!="no")) {
-		cout << "load from a file? Input 'yes' or 'no': ";
-		cin >> load;
-	}
+	// Queries user to load bank data from a file
+	prompt_for_file(US,"the US");
+	prompt_for_file(GB,"Great Britain");
+	prompt_for_file(DE,"Germany");
+	prompt_for_file(JP,"Japan");
+	prompt_for_file(RU,"Russia");
 
-	if (load == "yes") {
-		string save_file = "";
-		cout << "Name of save file (no spaces): ";
-		cin >> save_file;
-		bank = International_Bank( save_file );
-	}
+	// Construct a Bank_window for each Bank
+	Bank_window win(US,Point(100,100),960,720,"Bank 1 (US)");
+	Bank_window win(GB,Point(100,100),960,720,"Bank 2 (Great Britain)");
+	Bank_window win(DE,Point(100,100),960,720,"Bank 3 (Germany)");
+	Bank_window win(JP,Point(100,100),960,720,"Bank 4 (Japan)");
+	Bank_window win(RU,Point(100,100),960,720,"Bank 5 (Russia)");
 
-	else {
-		Currency dc = prompt_country( );
-		bank = International_Bank ( dc );
-	}
-
+	// No longer necessary, for reference when coding the Bank_window class
 	int option = 0;
 	while ( option != 11 ) {
 
