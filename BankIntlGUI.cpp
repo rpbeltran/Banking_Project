@@ -14,8 +14,7 @@ void prompt_for_file ( International_Bank & bank, string bank_country )
 {
 	string load = "";
 	while ( (load!="yes") && (load!="no") ) {
-		string load = "";
-		cout << "/n Would you like to load the data for the Bank in " << bank_country << " from a file? Input 'yes' or 'no': ";
+		cout << "Would you like to load the data for the Bank in " << bank_country << " from a file? Input 'yes' or 'no': ";
 		cin >> load;
 	}
 
@@ -62,6 +61,8 @@ int main ( ) {
 	Bank_Window win_de ( network, DE, "Bank of Germany");
 	Bank_Window win_jp ( network, JP, "Bank of Japan");
 	Bank_Window win_ru ( network, RU, "Bank of Russia");
+
+	gui_main();
 
 }
 

@@ -1,21 +1,25 @@
 
 #include "GUI.h"
 #include "Graph.h"
+#include "std_lib_facilities_4.h"
 
-using namespace Banking;
 using namespace Graph_lib;
 
 struct View_Controller {
 
-	vector< Widget > widgets;
+	vector< In_box > inboxes;
+	vector< Out_box > outboxes;
+	vector< Button > buttons;
 
 	bool enabled;
 
-	Text title;
+	string title;
 
 	View_Controller( string );
 
-	void add_widget( Widget & );
+	void add_inbox( Widget &);
+	void add_outbox( Out_box & );
+	void add_button( Button &);
 
 	void enable();
 	void disable();

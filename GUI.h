@@ -48,17 +48,16 @@ namespace Graph_lib {
 
         virtual ~Widget() { }
 
-    protected:
         Window* own;    // every Widget belongs to a Window
         Fl_Widget* pw;  // connection to the FLTK Widget
-    private:
+
         Widget& operator=(const Widget&); // don't copy Widgets
         Widget(const Widget&);
     };
 
 //------------------------------------------------------------------------------
 
-    struct Button : Widget {
+    struct Button : public Widget {
         Button(Point xy, int w, int h, const string& label, Callback cb)
             : Widget(xy,w,h,label,cb)
         {}
@@ -68,7 +67,7 @@ namespace Graph_lib {
 
 //------------------------------------------------------------------------------
 
-    struct In_box : Widget {
+    struct In_box : public Widget {
         In_box(Point xy, int w, int h, const string& s)
             :Widget(xy,w,h,s,0) { }
         int get_int();
@@ -79,7 +78,7 @@ namespace Graph_lib {
 
 //------------------------------------------------------------------------------
 
-    struct Out_box : Widget {
+    struct Out_box : public Widget {
         Out_box(Point xy, int w, int h, const string& s)
             :Widget(xy,w,h,s,0) { }
         void put(int);

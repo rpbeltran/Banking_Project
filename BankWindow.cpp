@@ -27,6 +27,8 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 
 	attach(main_menu);
 
+
+
 	View_Controller view_default( "Use this menu to do things =>" );
 
 	View_Controller view_add_money ( "Add Money" );
@@ -35,9 +37,9 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		In_box currency ( Point(200,250), 100, 20, "Currency: " );
 		Button submit   ( Point(200,275), 100, 20, "Add", cb_add_money_submit );
 
-		view_add_money.add_widget( amount );
-		view_add_money.add_widget( currency );
-		view_add_money.add_widget( submit );
+		view_add_money.add_inbox( amount );
+		view_add_money.add_inbox( currency );
+		view_add_money.add_button( submit );
 	}
 
 	View_Controller view_remove_money ( "Remove Money" );
@@ -46,9 +48,9 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		In_box currency ( Point(200,250), 100, 20, "Currency: " );
 		Button submit   ( Point(200,275), 100, 20, "Remove", cb_remove_money_submit );
 
-		view_remove_money.add_widget( amount );
-		view_remove_money.add_widget( currency );
-		view_remove_money.add_widget( submit );
+		view_remove_money.add_inbox( amount );
+		view_remove_money.add_inbox( currency );
+		view_remove_money.add_button( submit );
 	}
 
 	View_Controller view_display_money ( "Bank Money");
@@ -68,16 +70,16 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		Out_box currency5 ( Point(140,350), 100, 20, "Currency: " );
 		Out_box amount5   ( Point(260,350), 100, 20, "Amount: "   );
 
-		view_display_money.add_widget( currency1 );
-		view_display_money.add_widget( amount1   ); 
-		view_display_money.add_widget( currency2 );
-		view_display_money.add_widget( amount2   ); 
-		view_display_money.add_widget( currency3 );
-		view_display_money.add_widget( amount3   ); 
-		view_display_money.add_widget( currency4 );
-		view_display_money.add_widget( amount4   ); 
-		view_display_money.add_widget( currency5 );
-		view_display_money.add_widget( amount5   ); 
+		view_display_money.add_outbox( currency1 );
+		view_display_money.add_outbox( amount1   ); 
+		view_display_money.add_outbox( currency2 );
+		view_display_money.add_outbox( amount2   ); 
+		view_display_money.add_outbox( currency3 );
+		view_display_money.add_outbox( amount3   ); 
+		view_display_money.add_outbox( currency4 );
+		view_display_money.add_outbox( amount4   ); 
+		view_display_money.add_outbox( currency5 );
+		view_display_money.add_outbox( amount5   ); 
 	}
 
 	View_Controller view_add_patron ( "Add Patron");
@@ -85,8 +87,8 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		In_box name   ( Point(200,225), 100, 20, "Name: " );
 		Button submit ( Point(200,255), 100, 20, "Add", cb_add_patron_submit );
 
-		view_add_patron.add_widget( name   );
-		view_add_patron.add_widget( submit );
+		view_add_patron.add_inbox( name   );
+		view_add_patron.add_button( submit );
 	}
 
 	View_Controller view_is_patron ( "Check Patron");
@@ -99,12 +101,12 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		Out_box id      ( Point(300,350), 100, 20, "Account ID: "  );
 		Out_box balance ( Point(300,375), 100, 20, "Current Balance: " );
 
-		view_is_patron.add_widget( query   );
-		view_is_patron.add_widget( submit  );
-		view_is_patron.add_widget( result  );
-		view_is_patron.add_widget( name    );
-		view_is_patron.add_widget( id      );
-		view_is_patron.add_widget( balance );
+		view_is_patron.add_inbox( query   );
+		view_is_patron.add_button( submit  );
+		view_is_patron.add_outbox( result  );
+		view_is_patron.add_outbox( name    );
+		view_is_patron.add_outbox( id      );
+		view_is_patron.add_outbox( balance );
 	}
 
 	View_Controller view_display_patrons ( "Display Patrons");
@@ -149,45 +151,45 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 
 		Button next      ( Point(425,225), 50, 50, "Next 9", cb_display_next );
 
-		view_display_patrons.add_widget( previous );
+		view_display_patrons.add_button( previous );
 
-		view_display_patrons.add_widget( name1    );
-		view_display_patrons.add_widget( id1      );
-		view_display_patrons.add_widget( balance1 );
+		view_display_patrons.add_outbox( name1    );
+		view_display_patrons.add_outbox( id1      );
+		view_display_patrons.add_outbox( balance1 );
 
-		view_display_patrons.add_widget( name2    );
-		view_display_patrons.add_widget( id2      );
-		view_display_patrons.add_widget( balance2 );
+		view_display_patrons.add_outbox( name2    );
+		view_display_patrons.add_outbox( id2      );
+		view_display_patrons.add_outbox( balance2 );
 
-		view_display_patrons.add_widget( name3    );
-		view_display_patrons.add_widget( id3      );
-		view_display_patrons.add_widget( balance3 );
+		view_display_patrons.add_outbox( name3    );
+		view_display_patrons.add_outbox( id3      );
+		view_display_patrons.add_outbox( balance3 );
 
-		view_display_patrons.add_widget( name4    );
-		view_display_patrons.add_widget( id4      );
-		view_display_patrons.add_widget( balance4 );
+		view_display_patrons.add_outbox( name4    );
+		view_display_patrons.add_outbox( id4      );
+		view_display_patrons.add_outbox( balance4 );
 
-		view_display_patrons.add_widget( name5    );
-		view_display_patrons.add_widget( id5      );
-		view_display_patrons.add_widget( balance5 );
+		view_display_patrons.add_outbox( name5    );
+		view_display_patrons.add_outbox( id5      );
+		view_display_patrons.add_outbox( balance5 );
 
-		view_display_patrons.add_widget( name6    );
-		view_display_patrons.add_widget( id6      );
-		view_display_patrons.add_widget( balance6 );
+		view_display_patrons.add_outbox( name6    );
+		view_display_patrons.add_outbox( id6      );
+		view_display_patrons.add_outbox( balance6 );
 
-		view_display_patrons.add_widget( name7    );
-		view_display_patrons.add_widget( id7      );
-		view_display_patrons.add_widget( balance7 );
+		view_display_patrons.add_outbox( name7    );
+		view_display_patrons.add_outbox( id7      );
+		view_display_patrons.add_outbox( balance7 );
 
-		view_display_patrons.add_widget( name8    );
-		view_display_patrons.add_widget( id8      );
-		view_display_patrons.add_widget( balance8 );
+		view_display_patrons.add_outbox( name8    );
+		view_display_patrons.add_outbox( id8      );
+		view_display_patrons.add_outbox( balance8 );
 
-		view_display_patrons.add_widget( name9    );
-		view_display_patrons.add_widget( id9      );
-		view_display_patrons.add_widget( balance9 );
+		view_display_patrons.add_outbox( name9    );
+		view_display_patrons.add_outbox( id9      );
+		view_display_patrons.add_outbox( balance9 );
 
-		view_display_patrons.add_widget( next );
+		view_display_patrons.add_button( next );
 	}
 
 	View_Controller view_deposit ( "Make Deposit");
@@ -197,10 +199,10 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		In_box currency ( Point(200,250), 100, 20, "Currency: " );
 		Button submit   ( Point(200,275), 100, 20, "Add", cb_deposit_submit );
 
-		view_deposit.add_widget(   name   );
-		view_deposit.add_widget(  amount  );
-		view_deposit.add_widget( currency );
-		view_deposit.add_widget(  submit  );
+		view_deposit.add_inbox(   name   );
+		view_deposit.add_inbox(  amount  );
+		view_deposit.add_inbox( currency );
+		view_deposit.add_button(  submit  );
 	}
 
 	View_Controller view_withdraw ( "Make Withdraw" );
@@ -210,10 +212,10 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		In_box currency ( Point(200,250), 100, 20, "Currency: " );
 		Button submit   ( Point(200,275), 100, 20, "Add", cb_deposit_submit );
 
-		view_withdraw.add_widget(   name   );
-		view_withdraw.add_widget(  amount  );
-		view_withdraw.add_widget( currency );
-		view_withdraw.add_widget(  submit  );
+		view_withdraw.add_inbox(   name   );
+		view_withdraw.add_inbox(  amount  );
+		view_withdraw.add_inbox( currency );		
+		view_withdraw.add_button(  submit  );
 	}
 
 	View_Controller view_display_overdrawn ( "Overdrawn Patrons" );
@@ -258,45 +260,45 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 
 		Button next      ( Point(425,225), 50, 50, "Next 9", cb_display_next );
 
-		view_display_overdrawn.add_widget( previous );
+		view_display_overdrawn.add_button( previous );
 
-		view_display_overdrawn.add_widget( name1    );
-		view_display_overdrawn.add_widget( id1      );
-		view_display_overdrawn.add_widget( balance1 );
+		view_display_overdrawn.add_outbox( name1    );
+		view_display_overdrawn.add_outbox( id1      );
+		view_display_overdrawn.add_outbox( balance1 );
 
-		view_display_overdrawn.add_widget( name2    );
-		view_display_overdrawn.add_widget( id2      );
-		view_display_overdrawn.add_widget( balance2 );
+		view_display_overdrawn.add_outbox( name2    );
+		view_display_overdrawn.add_outbox( id2      );
+		view_display_overdrawn.add_outbox( balance2 );
 
-		view_display_overdrawn.add_widget( name3    );
-		view_display_overdrawn.add_widget( id3      );
-		view_display_overdrawn.add_widget( balance3 );
+		view_display_overdrawn.add_outbox( name3    );
+		view_display_overdrawn.add_outbox( id3      );
+		view_display_overdrawn.add_outbox( balance3 );
 
-		view_display_overdrawn.add_widget( name4    );
-		view_display_overdrawn.add_widget( id4      );
-		view_display_overdrawn.add_widget( balance4 );
+		view_display_overdrawn.add_outbox( name4    );
+		view_display_overdrawn.add_outbox( id4      );
+		view_display_overdrawn.add_outbox( balance4 );
 
-		view_display_overdrawn.add_widget( name5    );
-		view_display_overdrawn.add_widget( id5      );
-		view_display_overdrawn.add_widget( balance5 );
+		view_display_overdrawn.add_outbox( name5    );
+		view_display_overdrawn.add_outbox( id5      );
+		view_display_overdrawn.add_outbox( balance5 );
 
-		view_display_overdrawn.add_widget( name6    );
-		view_display_overdrawn.add_widget( id6      );
-		view_display_overdrawn.add_widget( balance6 );
+		view_display_overdrawn.add_outbox( name6    );
+		view_display_overdrawn.add_outbox( id6      );
+		view_display_overdrawn.add_outbox( balance6 );
 
-		view_display_overdrawn.add_widget( name7    );
-		view_display_overdrawn.add_widget( id7      );
-		view_display_overdrawn.add_widget( balance7 );
+		view_display_overdrawn.add_outbox( name7    );
+		view_display_overdrawn.add_outbox( id7      );
+		view_display_overdrawn.add_outbox( balance7 );
 
-		view_display_overdrawn.add_widget( name8    );
-		view_display_overdrawn.add_widget( id8      );
-		view_display_overdrawn.add_widget( balance8 );
+		view_display_overdrawn.add_outbox( name8    );
+		view_display_overdrawn.add_outbox( id8      );
+		view_display_overdrawn.add_outbox( balance8 );
 
-		view_display_overdrawn.add_widget( name9    );
-		view_display_overdrawn.add_widget( id9      );
-		view_display_overdrawn.add_widget( balance9 );
+		view_display_overdrawn.add_outbox( name9    );
+		view_display_overdrawn.add_outbox( id9      );
+		view_display_overdrawn.add_outbox( balance9 );
 
-		view_display_overdrawn.add_widget( next );
+		view_display_overdrawn.add_button( next );
 	}
 
 	View_Controller view_display_transactions ( "Add Patron" );
@@ -347,51 +349,51 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 
 		Button next ( Point(425,225), 50, 50, "Next 6", cb_display_next );
 
-		view_display_transactions.add_widget( previous );
+		view_display_transactions.add_button( previous );
 
-		view_display_transactions.add_widget( name1 );
-		view_display_transactions.add_widget( id1   );
-		view_display_transactions.add_widget( type1 );
-		view_display_transactions.add_widget( date1 );
-		view_display_transactions.add_widget( time1 );
-		view_display_transactions.add_widget( balance1 );
+		view_display_transactions.add_outbox( name1 );
+		view_display_transactions.add_outbox( id1   );
+		view_display_transactions.add_outbox( type1 );
+		view_display_transactions.add_outbox( date1 );
+		view_display_transactions.add_outbox( time1 );
+		view_display_transactions.add_outbox( balance1 );
 
-		view_display_transactions.add_widget( name2 );
-		view_display_transactions.add_widget( id2   );
-		view_display_transactions.add_widget( type2 );
-		view_display_transactions.add_widget( date2 );
-		view_display_transactions.add_widget( time2 );
-		view_display_transactions.add_widget( balance2 );
+		view_display_transactions.add_outbox( name2 );
+		view_display_transactions.add_outbox( id2   );
+		view_display_transactions.add_outbox( type2 );
+		view_display_transactions.add_outbox( date2 );
+		view_display_transactions.add_outbox( time2 );
+		view_display_transactions.add_outbox( balance2 );
 
-		view_display_transactions.add_widget( name3 );
-		view_display_transactions.add_widget( id3   );
-		view_display_transactions.add_widget( type3 );
-		view_display_transactions.add_widget( date3 );
-		view_display_transactions.add_widget( time3 );
-		view_display_transactions.add_widget( balance3 );
+		view_display_transactions.add_outbox( name3 );
+		view_display_transactions.add_outbox( id3   );
+		view_display_transactions.add_outbox( type3 );
+		view_display_transactions.add_outbox( date3 );
+		view_display_transactions.add_outbox( time3 );
+		view_display_transactions.add_outbox( balance3 );
 
-		view_display_transactions.add_widget( name4 );
-		view_display_transactions.add_widget( id4   );
-		view_display_transactions.add_widget( type4 );
-		view_display_transactions.add_widget( date4 );
-		view_display_transactions.add_widget( time4 );
-		view_display_transactions.add_widget( balance4 );
+		view_display_transactions.add_outbox( name4 );
+		view_display_transactions.add_outbox( id4   );
+		view_display_transactions.add_outbox( type4 );
+		view_display_transactions.add_outbox( date4 );
+		view_display_transactions.add_outbox( time4 );
+		view_display_transactions.add_outbox( balance4 );
 
-		view_display_transactions.add_widget( name5 );
-		view_display_transactions.add_widget( id5   );
-		view_display_transactions.add_widget( type5 );
-		view_display_transactions.add_widget( date5 );
-		view_display_transactions.add_widget( time5 );		
-		view_display_transactions.add_widget( balance5 );
+		view_display_transactions.add_outbox( name5 );
+		view_display_transactions.add_outbox( id5   );
+		view_display_transactions.add_outbox( type5 );
+		view_display_transactions.add_outbox( date5 );
+		view_display_transactions.add_outbox( time5 );		
+		view_display_transactions.add_outbox( balance5 );
 
-		view_display_transactions.add_widget( name6 );
-		view_display_transactions.add_widget( id6   );
-		view_display_transactions.add_widget( type6 );
-		view_display_transactions.add_widget( date6 );
-		view_display_transactions.add_widget( time6 );
-		view_display_transactions.add_widget( balance6 );
+		view_display_transactions.add_outbox( name6 );
+		view_display_transactions.add_outbox( id6   );
+		view_display_transactions.add_outbox( type6 );
+		view_display_transactions.add_outbox( date6 );
+		view_display_transactions.add_outbox( time6 );
+		view_display_transactions.add_outbox( balance6 );
 
-		view_display_transactions.add_widget( next );
+		view_display_transactions.add_button( next );
 	}
 
 	add_view(  view_default       );
@@ -410,8 +412,19 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 
 void Bank_Window::add_view( View_Controller & view ) 
 {
-	views.push_back( view );
-	for ( Widget & w : view.widgets ) {
+	views.push_back( move( view ) );
+
+	View_Controller & view_ref = views.back( );
+
+	for ( In_box & w : view_ref.inboxes ) {
+		attach( w );
+	}
+
+	for ( Out_box & w : view_ref.outboxes ) {
+		attach( w );
+	}
+
+	for ( Button & w : view_ref.buttons ) {
 		attach( w );
 	}
 }
@@ -432,19 +445,19 @@ void Bank_Window::quit()
 
 // callbacks
 
-static void Bank_Window::cb_add_money ( Address, Address win )
+void Bank_Window::cb_add_money ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 1;
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_remove_money ( Address, Address win )
+void Bank_Window::cb_remove_money ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 2;
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_display_money ( Address, Address win )
+void Bank_Window::cb_display_money ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 3;
 
@@ -453,18 +466,19 @@ static void Bank_Window::cb_display_money ( Address, Address win )
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_add_patron ( Address, Address win )
+void Bank_Window::cb_add_patron ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 4;
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_is_patron ( Address, Address win )
+void Bank_Window::cb_is_patron ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 5;
 	reference_to<Bank_Window>(win).redraw();
 }
-static void Bank_Window::cb_display_patron ( Address, Address win )
+
+void Bank_Window::cb_display_patron ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 6;
 
@@ -473,19 +487,19 @@ static void Bank_Window::cb_display_patron ( Address, Address win )
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_deposit ( Address, Address win )
+void Bank_Window::cb_deposit ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 7;
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_withdraw ( Address, Address win )
+void Bank_Window::cb_withdraw ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 8;
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_display_overdrawn ( Address, Address win )
+void Bank_Window::cb_display_overdrawn ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 9;
 
@@ -494,7 +508,7 @@ static void Bank_Window::cb_display_overdrawn ( Address, Address win )
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_display_transactions ( Address, Address win )
+void Bank_Window::cb_display_transactions ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).mode = 10;
 
@@ -505,36 +519,44 @@ static void Bank_Window::cb_display_transactions ( Address, Address win )
 
 
 
-static void Bank_Window::cb_add_money_submit ( Address, Address win )
+void Bank_Window::cb_add_money_submit ( Address, Address win )
 {
-	International_Bank & bank = reference_to<Bank_Window>(win);
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	View_Controller & view = reference_to<Bank_Window>(win).views[bank.mode];
-	double & amount = atof( view.widgets[0].get_int() );
-	string & currency = view.widgets[1].get_string();
+	International_Bank & bank = window.bank;
+
+	View_Controller & view = window.views[window.mode];
+
+	double amount = atof( view.inboxes[0].get_string().c_str() );
+	string currency = view.inboxes[1].get_string();
 	
 	bank.add_money( bank.currency( currency ), amount );
 
 }
 
-static void Bank_Window::cb_remove_money_submit ( Address, Address win )
+void Bank_Window::cb_remove_money_submit ( Address, Address win )
 {
-	International_Bank & bank = reference_to<Bank_Window>(win);
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	View_Controller & view = reference_to<Bank_Window>(win).views[bank.mode];
-	double & amount = atof( view.widgets[0].get_string() );
-	string & currency = view.widgets[1].get_string();
+	International_Bank & bank = window.bank;
+
+	View_Controller & view = window.views[window.mode];
+
+	double amount = atof( view.inboxes[0].get_string().c_str() );
+	string currency = view.inboxes[1].get_string();
 	
 	bank.add_money( bank.currency( currency ), amount );
 }
 
-static void Bank_Window::cb_add_patron_submit ( Address, Address win )
+void Bank_Window::cb_add_patron_submit ( Address, Address win )
 {
-	International_Bank & bank = reference_to<Bank_Window>(win);
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	View_Controller & view = bank.views[bank.mode];
+	International_Bank & bank = window.bank;
 
-	string & name = view.widgets[0].get_string();
+	View_Controller & view = window.views[window.mode];
+
+	string name = view.inboxes[0].get_string();
 
 	int num = bank.patron_count();
 
@@ -543,18 +565,20 @@ static void Bank_Window::cb_add_patron_submit ( Address, Address win )
 	bank.add_patron( patron );
 }
 
-static void Bank_Window::cb_is_patron_submit ( Address, Address win )
+void Bank_Window::cb_is_patron_submit ( Address, Address win )
 {
-	International_Bank & bank = reference_to<Bank_Window>(win);
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	View_Controller & view = bank.views[bank.mode];
+	International_Bank & bank = window.bank;
 
-	string & name = view.widgets[0].get_string();
+	View_Controller & view = window.views[window.mode];
 
-	Out_box & result   = view.widgets[0];
-	Out_box & username = view.widgets[1];  
-	Out_box & id       = view.widgets[2];
-	Out_box & balance  = view.widgets[3];
+	string name = view.inboxes[0].get_string();
+
+	Out_box & result   = view.outboxes[0];
+	Out_box & username = view.outboxes[1];  
+	Out_box & id       = view.outboxes[2];
+	Out_box & balance  = view.outboxes[3];
 
 	if( bank.is_patron(name) ) {
 
@@ -562,7 +586,7 @@ static void Bank_Window::cb_is_patron_submit ( Address, Address win )
 
 		result.put( "User found" );
 		username.put( patron.get_name() );
-		id.put( patron.get_account_number() );
+		id.put( to_string( patron.get_account_number() ) );
 		balance.put( to_string(patron.get_balance()) );
 
 	} else {
@@ -571,15 +595,17 @@ static void Bank_Window::cb_is_patron_submit ( Address, Address win )
 
 }
 
-static void Bank_Window::cb_deposit_submit ( Address, Address win )
+void Bank_Window::cb_deposit_submit ( Address, Address win )
 {
-	International_Bank & bank = reference_to<Bank_Window>(win);
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	View_Controller & view = bank.views[bank.mode];
+	International_Bank & bank = window.bank;
 
-	string & name = view.widgets[0].get_string(); 
-	double & amount = atof( view.widgets[0].get_string() );  
-	string & currency = view.widgets[0].get_string();
+	View_Controller & view = window.views[window.mode];
+
+	string name = view.inboxes[0].get_string(); 
+	double amount = atof( view.inboxes[1].get_string().c_str() );  
+	string currency = view.inboxes[2].get_string();
 
 	if( bank.is_patron(name) ) {
 		bank.deposit( bank.get_patron( name ), bank.currency(currency), amount );
@@ -590,15 +616,17 @@ static void Bank_Window::cb_deposit_submit ( Address, Address win )
 
 }
 
-static void Bank_Window::cb_withdraw_submit ( Address, Address win )
+void Bank_Window::cb_withdraw_submit ( Address, Address win )
 {
-	International_Bank & bank = reference_to<Bank_Window>(win);
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	View_Controller & view = bank.views[bank.mode];
+	International_Bank & bank = window.bank;
 
-	string & name = view.widgets[0].get_string();
-	double & amount = atof( view.widgets[0].get_string() );  
-	string & currency = view.widgets[0].get_string();
+	View_Controller & view = window.views[window.mode];
+
+	string name = view.inboxes[0].get_string();
+	double amount = atof( view.inboxes[1].get_string().c_str() );  
+	string currency = view.inboxes[2].get_string();
 
 	if( bank.is_patron(name) ) {
 		bank.withdraw( bank.get_patron( name ), bank.currency(currency), amount );
@@ -608,24 +636,24 @@ static void Bank_Window::cb_withdraw_submit ( Address, Address win )
 	}
 }
 
-static void Bank_Window::cb_display_prev   ( Address, Address win )
+void Bank_Window::cb_display_prev   ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).display_pos -= 1;
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_display_next   ( Address, Address win ) 
+void Bank_Window::cb_display_next   ( Address, Address win ) 
 {
 	reference_to<Bank_Window>(win).display_pos += 1;
 	reference_to<Bank_Window>(win).redraw();
 }
 
-static void Bank_Window::cb_next ( Address, Address win ) 
+void Bank_Window::cb_next ( Address, Address win ) 
 {
 	reference_to<Bank_Window>(win).quit();
 }
 
-static void Bank_Window::cb_quit ( Address, Address win ) 
+void Bank_Window::cb_quit ( Address, Address win ) 
 {
 	reference_to<Bank_Window>(win).quit();
 }
