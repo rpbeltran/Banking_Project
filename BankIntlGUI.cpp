@@ -64,7 +64,4 @@ int main ( ) {
 
 	gui_main();
 
-}
-
-
-
+} 

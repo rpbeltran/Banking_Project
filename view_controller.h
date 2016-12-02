@@ -7,9 +7,9 @@ using namespace Graph_lib;
 
 struct View_Controller {
 
-	vector< In_box > inboxes;
-	vector< Out_box > outboxes;
-	vector< Button > buttons;
+	vector< In_box* > inboxes;
+	vector< Out_box* > outboxes;
+	vector< Button* > buttons;
 
 	bool enabled;
 
