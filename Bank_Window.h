@@ -46,6 +46,8 @@ struct Bank_Window : public Graph_lib::Window {
 	static void cb_withdraw             (Address, Address);
 	static void cb_display_overdrawn    (Address, Address);
 	static void cb_display_transactions (Address, Address);
+	static void cb_transfer             (Address, Address);
+		static void cb_save             (Address, Address);
 
 	static void cb_add_money_submit    (Address, Address);
 	static void cb_remove_money_submit (Address, Address);
@@ -53,6 +55,8 @@ struct Bank_Window : public Graph_lib::Window {
 	static void cb_is_patron_submit    (Address, Address);
 	static void cb_deposit_submit      (Address, Address);
 	static void cb_withdraw_submit     (Address, Address);
+	static void cb_transfer_submit (Address, Address);
+		static void cb_save_submit            (Address, Address);
 
 	static void cb_display_prev   (Address, Address);
 	static void cb_display_next   (Address, Address);

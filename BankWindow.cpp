@@ -6,11 +6,11 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 
 	bank( b ),
 
-	network( n),
+	network( n ),
 
-	Window( Point(100,100), 650, 525, bank_name ),
+	Window( Point(100,100), 660, 525, bank_name ),
 
-	main_menu( Point( x_max()-100, 30 ), 70, 20, Menu::vertical, "Main Menu" )
+	main_menu( Point( x_max() - 110, 30 ), 100, 20, Menu::vertical, "Main Menu" )
 
 {
 
@@ -26,6 +26,8 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 	main_menu.attach(  new Button(  Point(0,0), 0, 0,  "Make withdrawal",       cb_withdraw             )  );
 	main_menu.attach(  new Button(  Point(0,0), 0, 0,  "Display Overdrawn",     cb_display_overdrawn    )  );
 	main_menu.attach(  new Button(  Point(0,0), 0, 0,  "Display Transactions",  cb_display_transactions )  );
+	main_menu.attach(  new Button(  Point(0,0), 0, 0,  "Transfer",  cb_transfer )  );
+	main_menu.attach(  new Button(  Point(0,0), 0, 0,  "Save To",  cb_save )  );
 
 	attach(main_menu);
 
@@ -51,11 +53,11 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		Button submit   ( Point(200,275), 100, 20, "Remove", cb_remove_money_submit );
 
 		view_remove_money.add_inbox( amount );
-		view_remove_money.add_inbox( currency );
+		view_remove_money.add_inbox( currency);
 		view_remove_money.add_button( submit );
 	}
 
-	View_Controller view_display_money ( "Bank Money");
+	View_Controller view_display_money ( "Bank Money" );
 	{
 		Out_box currency1 ( Point(140,125), 100, 20, "Currency: " );
 		Out_box amount1   ( Point(260,150), 100, 20, "Amount: "   );
@@ -113,7 +115,7 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 
 	View_Controller view_display_patrons ( "Display Patrons");
 	{
-		Button previous  ( Point(425,250), 50, 50, "Prev 9", cb_display_prev );
+		Button previous  ( Point(425,250), 50, 50, "Prev", cb_display_prev );
 
 		Out_box name1    ( Point(100,150), 90, 20, "Name: "  );
 		Out_box id1      ( Point(100,175), 90, 20, "Account ID: "  );
@@ -139,7 +141,7 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		Out_box id9      ( Point(300,425), 90, 20, "Account ID: "  );
 		Out_box balance9 ( Point(300,450), 90, 20, "Current Balance: " );
 
-		Button next      ( Point(425,325), 50, 50, "Next 9", cb_display_next );
+		Button next      ( Point(425,325), 50, 50, "Next", cb_display_next );
 
 		view_display_patrons.add_button( previous );
 
@@ -198,7 +200,7 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 
 	View_Controller view_display_overdrawn ( "Overdrawn Patrons" );
 	{
-		Button previous  ( Point(425,250), 50, 50, "Prev 9", cb_display_prev );
+		Button previous  ( Point(425,250), 50, 50, "Prev", cb_display_prev );
 
 		Out_box name1    ( Point(100,150), 90, 20, "Name: "  );
 		Out_box id1      ( Point(100,175), 90, 20, "Account ID: "  );
@@ -224,7 +226,7 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		Out_box id9      ( Point(300,425), 90, 20, "Account ID: "  );
 		Out_box balance9 ( Point(300,450), 90, 20, "Current Balance: " );
 
-		Button next      ( Point(425,325), 50, 50, "Next 9", cb_display_next );
+		Button next      ( Point(425,325), 50, 50, "Next", cb_display_next );
 
 		view_display_overdrawn.add_button( previous );
 
@@ -257,7 +259,7 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 
 	View_Controller view_display_transactions ( "Add Patron" );
 	{
-		Button previous  ( Point(425,250), 50, 50, "Prev 9", cb_display_prev );
+		Button previous  ( Point(425,250), 50, 50, "Prev", cb_display_prev );
 
 		Out_box name1    ( Point(100,150), 90, 20, "Name: "  );
 		Out_box id1      ( Point(100,175), 90, 20, "Account ID: "  );
@@ -287,7 +289,7 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		Out_box time6    ( Point(300,450), 90, 20, "Time: " );
 		Out_box balance6 ( Point(300,475), 90, 20, "Current Balance: " );
 
-		Button next      ( Point(425,325), 50, 50, "Next 9", cb_display_next );
+		Button next      ( Point(425,325), 50, 50, "Next", cb_display_next );
 
 		view_display_transactions.add_button( previous );
 
@@ -322,6 +324,30 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 		view_display_transactions.add_button( next );
 	}
 
+	View_Controller view_transfer ( "Transfer Funds" );
+	{
+		In_box name     ( Point(200,200), 100, 20, "Name: "     );
+		In_box bank     ( Point(200,225), 100, 20, "Bank: "     );
+		In_box amount   ( Point(200,250), 100, 20, "Amount: "   );
+		In_box currency ( Point(200,275), 100, 20, "Currency: " );
+		Button submit   ( Point(200,300), 100, 20, "Transfer", cb_transfer_submit );
+
+		view_transfer.add_inbox(   name   );
+		view_transfer.add_inbox(   bank   );
+		view_transfer.add_inbox(  amount  );
+		view_transfer.add_inbox( currency );
+		view_transfer.add_button(  submit  );
+	}
+
+	View_Controller view_save ( "Save to File" );
+	{
+		In_box file   ( Point(200,225), 100, 20, "File: " );
+		Button submit ( Point(200,255), 100, 20, "Save", cb_save_submit );
+
+		view_save.add_inbox( file   );
+		view_save.add_button( submit );
+	}
+
 	add_view(  view_default       ); // 0
 	add_view(  view_add_money     );
 	add_view(  view_remove_money  ); // 2
@@ -333,6 +359,8 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 	add_view(  view_withdraw        ); // 8
 	add_view(  view_display_overdrawn    );
 	add_view(  view_display_transactions ); // 10
+	add_view(  view_transfer  );
+	add_view(  view_save      ); // 12
 
 	remode(0);
 	remode(1);
@@ -345,6 +373,8 @@ Bank_Window::Bank_Window( Bank_Network & n, International_Bank & b, string bank_
 	remode(8);
 	remode(9);
 	remode(10);
+	remode(11);
+	remode(12);
 
 	remode(0);
 
@@ -401,11 +431,21 @@ void Bank_Window::cb_remove_money ( Address, Address win )
 
 void Bank_Window::cb_display_money ( Address, Address win )
 {
-	reference_to<Bank_Window>(win).remode( 3 );
 
-	// todo
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	reference_to<Bank_Window>(win).redraw();
+	International_Bank & bank = window.bank;
+
+	window.remode( 3 );
+
+	View_Controller & view = window.views[window.mode];
+
+	for (int i = 0; i < 5; i++){
+		view.outboxes[2*i]->put( bank.monies[i].get_currency().type );
+		view.outboxes[2*i+1]->put( to_string(bank.monies[i].get_amount()) );
+	}
+
+	window.redraw();
 }
 
 void Bank_Window::cb_add_patron ( Address, Address win )
@@ -422,11 +462,26 @@ void Bank_Window::cb_is_patron ( Address, Address win )
 
 void Bank_Window::cb_display_patron ( Address, Address win )
 {
-	reference_to<Bank_Window>(win).remode( 6);
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	// todo
+	International_Bank & bank = window.bank;
 
-	reference_to<Bank_Window>(win).redraw();
+	window.remode( 6 );
+
+	View_Controller & view = window.views[window.mode];
+
+	for (int i = 0; i < 6; i++) {
+
+		if (i >= bank.patron_count()) {
+			break;
+		}
+
+		view.outboxes[3*i]->put( bank.patrons[i].get_name() );
+		view.outboxes[3*i+1]->put( to_string(bank.patrons[i].get_account_number()) );
+		view.outboxes[3*i+2]->put( to_string(bank.patrons[i].get_balance()) );
+	}
+
+	window.redraw();
 }
 
 void Bank_Window::cb_deposit ( Address, Address win )
@@ -443,23 +498,142 @@ void Bank_Window::cb_withdraw ( Address, Address win )
 
 void Bank_Window::cb_display_overdrawn ( Address, Address win )
 {
-	reference_to<Bank_Window>(win).remode( 9);
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	// todo
+	International_Bank & bank = window.bank;
 
-	reference_to<Bank_Window>(win).redraw();
+	window.remode( 9 );
+
+	View_Controller & view = window.views[window.mode];
+
+	int c = 0;
+	int i = 0;
+	while (c<6) {
+
+		if (i >= bank.patron_count()) {
+			break;
+		}
+
+		if ( bank.patrons[i].get_balance() < 0) {
+			view.outboxes[3*c]->put( bank.patrons[i].get_name() );
+			view.outboxes[3*c+1]->put( to_string(bank.patrons[i].get_account_number()) );
+			view.outboxes[3*c+2]->put( to_string(bank.patrons[i].get_balance()) );
+			c += 1;
+		}
+		i+=1;
+	}
+
+
+	window.redraw();
 }
 
 void Bank_Window::cb_display_transactions ( Address, Address win )
 {
-	reference_to<Bank_Window>(win).remode (10);
+	Bank_Window & window = reference_to<Bank_Window>(win);
 
-	// todo
+	International_Bank & bank = window.bank;
 
-	reference_to<Bank_Window>(win).redraw();
+	window.remode( 10 );
+
+	View_Controller & view = window.views[window.mode];
+
+	for (int i = 0; i < 6; i++) {
+
+		if (i >= bank.patron_count()) {
+			break;
+		}
+
+		view.outboxes[3*i]->put( bank.patrons[i].get_name() );
+		view.outboxes[3*i+1]->put( to_string(bank.patrons[i].get_account_number()) );
+		view.outboxes[3*i+2]->put( to_string(bank.patrons[i].get_balance()) );
+	}
+	window.redraw();
+}
+
+void Bank_Window::cb_transfer( Address, Address win )
+{
+	Bank_Window & window = reference_to<Bank_Window>(win);
+
+	International_Bank & bank = window.bank;
+
+	window.remode( 11 );
+
+	View_Controller & view = window.views[window.mode];
+
+	window.redraw();
 }
 
 
+void Bank_Window::cb_save( Address, Address win )
+{
+	Bank_Window & window = reference_to<Bank_Window>(win);
+
+	International_Bank & bank = window.bank;
+
+	window.remode( 12 );
+
+	View_Controller & view = window.views[window.mode];
+
+	window.redraw();
+}
+
+void Bank_Window::cb_transfer_submit( Address, Address win )
+{
+	Bank_Window & window = reference_to<Bank_Window>(win);
+
+	International_Bank & bank = window.bank;
+
+	View_Controller & view = window.views[window.mode];
+
+	string name = view.inboxes[0]->get_string(); // name
+	string bank_name = view.inboxes[1]->get_string(); // bank
+	double amount = atof(view.inboxes[2]->get_string().c_str()); //amount
+	string currency = view.inboxes[3]->get_string(); //currency
+
+	cout << "N: " << name << endl;
+	cout << "B: " << bank_name << endl;
+	cout << "A: " << amount << endl;
+	cout << "C: " << currency << endl;
+
+	try {
+		for ( International_Bank & transfer_bank : window.network.banks ) {
+			if ( transfer_bank.default_currency.type == bank_name ) {
+
+				if ( true ) {
+					cout << 1 << endl;
+					if( bank.is_patron(name)) {
+						cout << 2 << endl;
+						if (bank.get_patron(name).get_balance() >= amount ) {
+							cout << 3 << endl;
+							bank.withdraw( bank.get_patron(name), bank.currency(currency), amount );
+							transfer_bank.deposit( transfer_bank.get_patron(name), bank.currency(currency), amount );
+							break;
+						}
+					}
+				}
+				cout << "Can not complete transfer" << endl;
+			}
+		}
+	}
+	catch(...) {
+		cout << currency;
+	}
+}
+
+
+void Bank_Window::cb_save_submit( Address, Address win )
+{
+	Bank_Window & window = reference_to<Bank_Window>(win);
+
+	International_Bank & bank = window.bank;
+
+	View_Controller & view = window.views[window.mode];
+
+	string file = view.inboxes[0]->get_string();
+
+	bank.Save_to( file );
+
+}
 
 void Bank_Window::cb_add_money_submit ( Address, Address win )
 {
@@ -487,7 +661,7 @@ void Bank_Window::cb_remove_money_submit ( Address, Address win )
 	double amount = atof( view.inboxes[0]->get_string().c_str() );
 	string currency = view.inboxes[1]->get_string();
 
-	bank.add_money( bank.currency( currency ), amount );
+	bank.remove_money( bank.currency( currency ), amount );
 }
 
 void Bank_Window::cb_add_patron_submit ( Address, Address win )
@@ -532,7 +706,10 @@ void Bank_Window::cb_is_patron_submit ( Address, Address win )
 		balance->put( to_string(patron.get_balance()) );
 
 	} else {
-		result->put( "User not found");
+		result->put( " Not Found ");
+		username->put( "---" );
+		id->put( "---");
+		balance->put( "---" );
 	}
 
 }
@@ -581,6 +758,9 @@ void Bank_Window::cb_withdraw_submit ( Address, Address win )
 void Bank_Window::cb_display_prev   ( Address, Address win )
 {
 	reference_to<Bank_Window>(win).display_pos -= 1;
+	if (reference_to<Bank_Window>(win).display_pos == -1){
+		reference_to<Bank_Window>(win).display_pos = 1;
+	}
 	reference_to<Bank_Window>(win).redraw();
 }
 

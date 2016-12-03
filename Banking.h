@@ -18,12 +18,12 @@ namespace Banking {
 
 	//
 	// Currency struct
-	// Holds information about a particular currency type 
+	// Holds information about a particular currency type
 	//
 	// Data Stored:
 	//		Type of currency
 	//		Exchange rate to USD ( amount per 1 USD )
-	//	
+	//
 
 	struct Currency {
 
@@ -38,14 +38,14 @@ namespace Banking {
 	// -------------------------------------------------------------------------------------------------------------
 
 	//
-	// Money class 
+	// Money class
 	// Holds information about the money objects in the Bank ( amount and type )
 	//
 	// Data Stored:
 	//		Type of currency
 	//		Amount of currency
 	//
-	
+
 	class Money {
 
 		Currency currency;
@@ -70,13 +70,13 @@ namespace Banking {
 
 	//
 	// Patron Class
-	// Holds information about the customers in the Bank 
+	// Holds information about the customers in the Bank
 	//
 	// Data Stored:
 	//		name
 	//		account number
 	//		account balance (in USD’s)
-	// 
+	//
 	// Note: To avoid difficulties with reading into a string variable, use the underscores ( _ ) in place of spaces for Patron names.
 	//
 
@@ -109,12 +109,12 @@ namespace Banking {
 
 	//
 	// Transaction Struct
-	// Holds information about customer deposits and withdrawals in the Bank 
+	// Holds information about customer deposits and withdrawals in the Bank
 	//
 	// Data Stored:
 	//		patron name, account number, and resulting account balance
 	//		transaction type (withdraw or deposit) and amount
-	//		Chrono::Date transaction Date, Chrono::Time transaction time 
+	//		Chrono::Date transaction Date, Chrono::Time transaction time
 	//
 
 	struct Transaction {
@@ -136,12 +136,12 @@ namespace Banking {
 
 		// Constructor
 		Transaction( string, int, double, Type, double, Chrono::Date, Chrono::Time );
-	
+
 	};
 
 	ostream & operator<< (ostream& os, const Transaction & transaction);
 	istream & operator>> (istream& is, Transaction & transaction);
-	
+
 
 
 
@@ -158,11 +158,11 @@ namespace Banking {
 
 	protected:
 
-		vector<Patron> patrons;
-
 		vector<Transaction> transactions;
 
 	public:
+
+		vector<Patron> patrons;
 
 		Bank( );
 		Bank( string ); // Load state from a text file
@@ -200,12 +200,12 @@ namespace Banking {
 	//
 
 	class International_Bank : public Bank {
-		
+
+	public:
+
 		Currency default_currency;
 
 		vector<Money> monies;
-
-	public:
 
 		International_Bank ( Currency );
 		International_Bank ( string );
@@ -225,7 +225,3 @@ namespace Banking {
 
 
 }
-
-
-
-

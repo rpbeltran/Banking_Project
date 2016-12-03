@@ -52,7 +52,7 @@ namespace Banking {
 	    double amount;
 	    char ch1, ch2, ch3, ch4;
 	    is >> ch1 >> t1 >> t2 >> t3 >> ch2 >> er >> ch3 >> amount >> ch4;
-	    
+
 	    stringstream t_build;
 	    t_build << t1 <<t2 <<t3;
 	    t_build >> type;
@@ -81,7 +81,7 @@ namespace Banking {
 	}
 
 	int Patron::get_account_number( ) const {
-		
+
 		return account_number;
 
 	}
@@ -101,7 +101,7 @@ namespace Banking {
 	ostream& operator<<(ostream& os, const Patron & patron)
 	// Patron Output stream overload
 	// Output format:
-	//(name,account_number,balance) 
+	//(name,account_number,balance)
 	{
 		return os << '(' << patron.get_name( ) << ',' << patron.get_account_number( ) << ',' << patron.get_balance( ) << ')';
 	}
@@ -122,12 +122,12 @@ namespace Banking {
 	    char name_ch;
 
 	    while ( is >> name_ch ) {
-	    	
+
 	    	if ( name_ch == ',' )
 	    		break;
-	    	
+
 	    	name_ss << name_ch;
-	    
+
 	    }
 	    name_ss >> name;
 
@@ -165,7 +165,7 @@ namespace Banking {
 	ostream & operator<<(ostream& os, const Transaction & transaction)
 	// Transaction Output stream overload
 	// Output format:
-	//( patron_name, patron_account, type, amount, date, time ) 
+	//( patron_name, patron_account, type, amount, date, time )
 	{
 		string type = "deposit";
 		if ( transaction.type == Transaction::Type(1) ){
@@ -183,7 +183,7 @@ namespace Banking {
 	istream & operator>>(istream& is, Transaction & transaction)
 	// Transaction input stream overload
 	// Input format:
-	//( patron_name, patron_account, type, amount, date, time ) 
+	//( patron_name, patron_account, type, amount, date, time )
 	{
 	    string patron_name;
 	    int patron_account;
@@ -213,13 +213,13 @@ namespace Banking {
 	    //patron_account
 	    is >> patron_account;
 
-	    //, 
+	    //,
 	    is >> ch3;
 
 	    //amount
 	    is >> amount;
 
-	    //, 
+	    //,
 	    is >> ch5;
 
 	    //type
@@ -231,24 +231,24 @@ namespace Banking {
 	    	type_ss << type_ch;
 	    }
 	    type_ss >> type_string;
-	    if (type_string == "deposit") { 
-	    	type = Transaction::Type(2); 
+	    if (type_string == "deposit") {
+	    	type = Transaction::Type(2);
 	    }
 
-	    //, 
+	    //,
 
-	    
+
 
 	    //date
 	    is >> date;
-	    
-	    //, 
+
+	    //,
 	    is >> ch6;
-	    
-	    //time 
+
+	    //time
 	    is >> time;
-	    
-	    //) 
+
+	    //)
 	    is >> ch7;
 
 	    transaction = Transaction( patron_name,patron_account,new_balance,type,amount,date,time );     // update transaction
@@ -268,13 +268,13 @@ namespace Banking {
 
 	// Bank Class
 
-	Bank::Bank( ) { 
+	Bank::Bank( ) {
 
-		money = Money( Currency("USD",1.0) ); 
+		money = Money( Currency("USD",1.0) );
 
 	}
 
-	Bank::Bank( string filename ) 
+	Bank::Bank( string filename )
 	// Description: Bank Constructor loads patron and transaction data from a text file
 	// Pre-condition: String filename is the filename for the data file to load in
 	// Input File Format:
@@ -289,7 +289,7 @@ namespace Banking {
 	//	file not found
 	//	file not formatted properly
 	{
-		
+
 		ifstream file( filename );
 
 		string m_str;
@@ -300,15 +300,15 @@ namespace Banking {
 
 		string temp;
 		getline(file, temp);
-		
-	    string str; 
+
+	    string str;
 	    stringstream ss;
 
 	    while (getline(file, str))
 	    {
 	        if ( str == "--")
 	        	break;
-	        
+
 	        Patron p ("",0,0);
 	        ss << str;
 	        ss >> p;
@@ -316,11 +316,11 @@ namespace Banking {
 	        patrons.push_back( p );
 
 	        ss.str("");
-	    
+
 	    }
 
 	    while (getline(file, str))
-	    {   
+	    {
 	        Transaction t ( "",0,0, Transaction::Type(1),0,Chrono::Date(),Chrono::Time() );
 	        ss << str;
 	        ss >> t;
@@ -333,10 +333,10 @@ namespace Banking {
 
 	}
 
-	void Bank::Save_to( string filename ) 
+	void Bank::Save_to( string filename )
 	// Description: saves bank data to a text file
 	// Precondition: String filename points is the name of the file to be created
-	// Post-condition: patrons and transactions are 
+	// Post-condition: patrons and transactions are
 	{
 		ofstream file ( filename );
 
@@ -347,9 +347,9 @@ namespace Banking {
 		file << "--" << endl;
 		for ( Transaction & t : transactions )
 			file << t << endl;
-	
+
 		file.close();
-	
+
 	}
 
 	bool Bank::is_patron ( string name ) const
@@ -366,12 +366,12 @@ namespace Banking {
 	Patron & Bank::get_patron ( string name )
 	// Description: Get patron by name
 	// Pre-condition: String name is the name of a patron
-	// Post-condition: returns the Patron object from patrons whose 
+	// Post-condition: returns the Patron object from patrons whose
 	// Post-Condition: If no patron with that name is found, return null
 	{
 		for (int i = 0; i < patrons.size(); ++i) {
-			if (name == patrons[i].get_name()) { 
-				return patrons[i]; 
+			if (name == patrons[i].get_name()) {
+				return patrons[i];
 			}
 		}
 		if (!is_patron(name)) { error("lol no patron named that XD"); }
@@ -380,7 +380,7 @@ namespace Banking {
 	void Bank::set_patron_balance ( Patron & patron, double balance )
 	{
 		for (int i = 0; i < patrons.size(); ++i) {
-			if (patron.get_account_number() == patrons[i].get_account_number()) { 
+			if (patron.get_account_number() == patrons[i].get_account_number()) {
 				patrons[i].set_balance( balance );
 				break;
 			}
@@ -397,7 +397,7 @@ namespace Banking {
 
 	}
 
-	void Bank::display_patrons ( ) 
+	void Bank::display_patrons ( )
 	// Description: Display all patrons data
 	// Note: Use overloaded output stream operators
 	// Note: Because this is so similar to save_to, we can overload output for Bank if we want
@@ -413,7 +413,7 @@ namespace Banking {
 
 	}
 
-	void Bank::display_overdrawn ( ) 
+	void Bank::display_overdrawn ( )
 	// Description: Displays overdrawn patrons
 	{
 		bool hasOverdrawn = false;
@@ -453,14 +453,14 @@ namespace Banking {
 	// Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 	{
 
-		if (amount <= 0){		 
+		if (amount <= 0){
 			error("invalid operation: negative amount");
 		}
 
 		if (amount > total_money() ) {
 			cout << "Sorry, The bank has insufficient funds for this" << endl << endl;
 		}
-		
+
 		else {
 
 			// Changes patron balance
@@ -468,11 +468,11 @@ namespace Banking {
 			// Adds transaction
 			Transaction::Type type = Transaction::Type(1);
 			transactions.push_back(
-				Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance(), type, amount, Chrono::Date(), Chrono::Time() ) 
+				Transaction( patron.get_name(), patron.get_account_number(),  patron.get_balance(), type, amount, Chrono::Date(), Chrono::Time() )
 			);
 			remove_money(amount);
 
-		}		
+		}
 
 	}
 
@@ -484,7 +484,7 @@ namespace Banking {
 	{
 
 		if (amount <= 0) error("invalid operation: negative amount");
-		
+
 		// Changes patron balance
 		set_patron_balance(patron, patron.get_balance()+amount);
 		// Adds transaction
@@ -496,7 +496,7 @@ namespace Banking {
 
 	}
 
-	double Bank::total_money( ) const 
+	double Bank::total_money( ) const
 	// Description: Get total money in USD
 	// Note: US bank only has one Money object to consider
 	{
@@ -509,9 +509,9 @@ namespace Banking {
 	// Post-condition: money.amount is updated
 	{
 
-		if (amount <= 0) 
+		if (amount <= 0)
 			error("invalid operation: negative amount");
-		
+
 		money.set_amount(money.get_amount() + amount);
 
 	}
@@ -522,9 +522,9 @@ namespace Banking {
 	// Post-condition: money.amount is updated
 	{
 
-		if (amount <= 0) 
+		if (amount <= 0)
 			error("invalid operation: negative amount");
-		
+
 		if (amount > total_money() ) {
 			cout << "Sorry, The bank has insufficient funds for this" <<endl <<endl;
 		}
@@ -542,7 +542,7 @@ namespace Banking {
 	// International Bank Class
 
 
-	Currency Bank::currency ( string currency_name ) 
+	Currency Bank::currency ( string currency_name )
 	// Description: Get Currency data object from currency name
 	{
 
@@ -556,19 +556,19 @@ namespace Banking {
 			return Currency( "EUR", .89 );
 		}
 		else if ( currency_name == "JPY" ){
-			return Currency( "JPY", 102.09 ); 
+			return Currency( "JPY", 102.09 );
 		}
 		else if ( currency_name == "RUB" ){
 			return Currency( "RUB", 65.97 );
 		}
-		
+
 		error( "Error: Unknown currency!" );
 
 	}
 
 
-	International_Bank::International_Bank ( Currency dc ) : default_currency( dc ) 
-	{ 
+	International_Bank::International_Bank ( Currency dc ) : default_currency( dc )
+	{
 		monies.push_back(  Money( currency("USD"), 20000 * currency("USD").exchange_rate / default_currency.exchange_rate )  );
 		monies.push_back(  Money( currency("GBP"), 20000 * currency("GBP").exchange_rate / default_currency.exchange_rate )  );
 		monies.push_back(  Money( currency("EUR"), 20000 * currency("EUR").exchange_rate / default_currency.exchange_rate )  );
@@ -577,7 +577,7 @@ namespace Banking {
 	}
 
 
-	International_Bank::International_Bank ( string filename ) : default_currency( currency("USD") ) 
+	International_Bank::International_Bank ( string filename ) : default_currency( currency("USD") )
 	// Description: International_Bank Constructor loads default currency, patron, and transaction data from a text file
 	// Pre-condition: String filename is the filename for the data file to load in
 	// Input File Format:
@@ -591,7 +591,7 @@ namespace Banking {
 	//		patron1
 	//		patron2
 	//		...
-	//		
+	//
 	//		transaction1
 	//		transaction2
 	//		..
@@ -617,19 +617,19 @@ namespace Banking {
 			m_ss >> m;
 			monies.push_back( m );
 		}
-		
+
 
 		string temp;
 		getline(file, temp);
-		
-	    string str; 
+
+	    string str;
 	    stringstream ss;
 
 	    while (getline(file, str))
 	    {
 	        if ( str == "--")
 	        	break;
-	        
+
 	        Patron p ("",0,0);
 	        ss << str;
 	        ss >> p;
@@ -637,11 +637,11 @@ namespace Banking {
 	        patrons.push_back( p );
 
 	        ss.str("");
-	    
+
 	    }
 
 	    while (getline(file, str))
-	    {   
+	    {
 	        Transaction t ( "",0,0, Transaction::Type(1),0,Chrono::Date(),Chrono::Time() );
 	        ss << str;
 	        ss >> t;
@@ -654,10 +654,10 @@ namespace Banking {
 
 	}
 
-	void International_Bank::Save_to( string filename ) 
+	void International_Bank::Save_to( string filename )
 	// Description: saves bank data to a text file
 	// Precondition: String filename points is the name of the file to be created
-	// Post-condition: patrons and transactions are 
+	// Post-condition: patrons and transactions are
 	{
 		ofstream file ( filename );
 
@@ -670,12 +670,12 @@ namespace Banking {
 
 		for ( Patron & p : patrons)
 			file << p << endl;
-		
+
 		file << "--" << endl;
-		
+
 		for ( Transaction & t : transactions )
 			file << t << endl;
-	
+
 		file.close();
 	}
 
@@ -700,9 +700,9 @@ namespace Banking {
 		}
 
 		if (amount >  current ) {
-		
+
 			cout << "Sorry, The bank has insufficient funds for this" << endl << endl;
-		
+
 		} else {
 
 			remove_money(currency,amount);
@@ -728,17 +728,17 @@ namespace Banking {
 	// Error handling: raise an exception if amount is negative, or transaction is impossible (insufficient funds)
 	{
 
-		if (amount <= 0) 
+		if (amount <= 0)
 			error("invalid operation: negative amount");
-		
+
 		add_money(currency,amount);
-		
+
 		// convert amount to amount in default currency
 		amount = default_currency.exchange_rate * amount / currency.exchange_rate;
-		
+
 		// Changes patron balance in default currency
 		set_patron_balance(patron, patron.get_balance()+amount);
-		
+
 		// Adds transaction in default currency
 		Transaction::Type type = Transaction::Type(2);
 		transactions.push_back(
@@ -748,7 +748,7 @@ namespace Banking {
 	}
 
 
-	double International_Bank::total_money( ) const 
+	double International_Bank::total_money( ) const
 	// Description: Get total money in default_currency
 	// Note: iterate through moneys, and convert to default currency rates
 	{
@@ -761,7 +761,7 @@ namespace Banking {
 
 	}
 
-	void International_Bank::display_total_money( )  
+	void International_Bank::display_total_money( )
 	// Description: Get total money in default_currency
 	// Note: iterate through moneys, and convert to default currency rates
 	{
@@ -779,14 +779,14 @@ namespace Banking {
 	{
 
 		for (int i = 0; i < monies.size(); ++i) {
-			if (monies[i].get_currency().type == currency.type) 
+			if (monies[i].get_currency().type == currency.type)
 				monies[i].set_amount(monies[i].get_amount()+amount);
 		}
 
 	}
 
 
-	void International_Bank::remove_money( Currency currency, double amount) 
+	void International_Bank::remove_money( Currency currency, double amount)
 	// Desscription: Subtract money of a specific currency from bank
 	// Pre-Condition: currency is one of the acceptable currencies, amount is a positive double
 	// Post-condtion: amount is subtracted from proper entry in moneys
@@ -800,7 +800,7 @@ namespace Banking {
 					break;
 				}
 				monies[i].set_amount(monies[i].get_amount()-amount);
-			
+
 			}
 		}
 
@@ -809,11 +809,3 @@ namespace Banking {
 
 
 }
-
-
-
-
-
-
-
-
